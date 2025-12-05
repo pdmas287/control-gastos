@@ -134,13 +134,17 @@ Ve a la pestaña "Deployments" y espera a ver:
 
 3. Click en **"Try it out"**
 
-4. Ingresa:
+4. Ingresa (COPIA EXACTAMENTE):
    ```json
    {
-     "nombreUsuario": "admin",
-     "contrasena": "Admin123!"
+     "nombreUsuarioOEmail": "admin",
+     "password": "Admin123!"
    }
    ```
+
+   **⚠️ IMPORTANTE:** Los nombres de campos deben ser exactamente como se muestran:
+   - `nombreUsuarioOEmail` (con O mayúscula en "OEmail")
+   - `password` (todo en minúsculas)
 
 5. Click en **"Execute"**
 
