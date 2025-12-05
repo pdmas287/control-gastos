@@ -14,14 +14,11 @@ WORKDIR /src/Backend/ControlGastos.API
 RUN dotnet publish -c Release -o /app/publish
 
 # Runtime stage
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/publish .
 
-# Expose port (Railway will set the PORT environment variable)
-EXPOSE 8080
+# Railway provides PORT env variable, use it
+ENV ASPNETCORE_URLS=http://0.0.0.0:${PORT:-8080}
 
-# Set environment variable for ASP.NET to listen on all interfaces
-ENV ASPNETCORE_URLS=http://+:8080
-
-ENTRYPOINT ["dotnet", "ControlGastos.API.dll"]
+CMD ["dotnet", "ControlGastos.API.dll"]
