@@ -1,0 +1,80 @@
+<div class="card">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Tipos de Gasto</h2>
+    <button class="btn btn-primary" (click)="showCreateForm()" *ngIf="!showForm">
+      Nuevo Tipo de Gasto
+    </button>
+  </div>
+
+  <div *ngIf="showForm" class="card mb-3" style="background-color: #f8f9fa;">
+    <h3>{{ isEditing ? 'Editar' : 'Nuevo' }} Tipo de Gasto</h3>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Código (Generado Automáticamente)</label>
+        <input type="text" class="form-control" [value]="siguienteCodigo" readonly>
+      </div>
+
+      <div class="form-group">
+        <label>Descripción *</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="formData.descripcion"
+          name="descripcion"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label>
+          <input type="checkbox" [(ngModel)]="formData.activo" name="activo">
+          Activo
+        </label>
+      </div>
+
+      <div class="d-flex" style="gap: 10px;">
+        <button type="submit" class="btn btn-success" [disabled]="!formData.descripcion">
+          {{ isEditing ? 'Actualizar' : 'Guardar' }}
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="cancelForm()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <table *ngIf="tiposGasto.length > 0">
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Descripción</th>
+        <th *ngIf="isAdmin">Usuario</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tipo of tiposGasto">
+        <td>{{ tipo.codigo }}</td>
+        <td>{{ tipo.descripcion }}</td>
+        <td *ngIf="isAdmin">{{ tipo.nombreUsuario }}</td>
+        <td>
+          <span [style.color]="tipo.activo ? 'green' : 'red'">
+            {{ tipo.activo ? 'Activo' : 'Inactivo' }}
+          </span>
+        </td>
+        <td>
+          <button class="btn btn-primary" (click)="showEditForm(tipo)" style="margin-right: 5px;">
+            Editar
+          </button>
+          <button class="btn btn-danger" (click)="deleteTipoGasto(tipo.tipoGastoId)">
+            Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="tiposGasto.length === 0" class="text-center">
+    No hay tipos de gasto registrados
+  </p>
+</div>

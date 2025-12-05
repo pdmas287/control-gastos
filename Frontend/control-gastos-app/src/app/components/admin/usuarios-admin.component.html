@@ -1,0 +1,143 @@
+<div class="usuarios-admin-container">
+  <h1>Gestión de Usuarios</h1>
+
+  <!-- Estadísticas -->
+  <div class="estadisticas" *ngIf="estadisticas">
+    <div class="stat-card">
+      <h3>Total Usuarios</h3>
+      <p class="stat-number">{{ estadisticas.totalUsuarios }}</p>
+    </div>
+    <div class="stat-card">
+      <h3>Activos</h3>
+      <p class="stat-number green">{{ estadisticas.usuariosActivos }}</p>
+    </div>
+    <div class="stat-card">
+      <h3>Inactivos</h3>
+      <p class="stat-number red">{{ estadisticas.usuariosInactivos }}</p>
+    </div>
+    <div class="stat-card">
+      <h3>Administradores</h3>
+      <p class="stat-number blue">{{ estadisticas.administradores }}</p>
+    </div>
+    <div class="stat-card">
+      <h3>Usuarios</h3>
+      <p class="stat-number">{{ estadisticas.usuariosNormales }}</p>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filtros-container">
+    <h2>Filtros</h2>
+    <div class="filtros">
+      <div class="filtro-grupo">
+        <label for="filtroTexto">Buscar:</label>
+        <input
+          type="text"
+          id="filtroTexto"
+          [(ngModel)]="filtroTexto"
+          placeholder="Nombre, email, usuario..."
+        />
+      </div>
+
+      <div class="filtro-grupo">
+        <label for="filtroRol">Rol:</label>
+        <select id="filtroRol" [(ngModel)]="filtroRol">
+          <option value="">Todos</option>
+          <option value="Admin">Admin</option>
+          <option value="Usuario">Usuario</option>
+        </select>
+      </div>
+
+      <div class="filtro-grupo">
+        <label for="filtroActivo">Estado:</label>
+        <select id="filtroActivo" [(ngModel)]="filtroActivo">
+          <option value="">Todos</option>
+          <option value="true">Activos</option>
+          <option value="false">Inactivos</option>
+        </select>
+      </div>
+
+      <button class="btn-secondary" (click)="limpiarFiltros()">
+        Limpiar Filtros
+      </button>
+    </div>
+  </div>
+
+  <!-- Mensaje de error -->
+  <div class="error-message" *ngIf="error">
+    {{ error }}
+  </div>
+
+  <!-- Loading -->
+  <div class="loading" *ngIf="cargando">
+    <p>Cargando usuarios...</p>
+  </div>
+
+  <!-- Tabla de usuarios -->
+  <div class="tabla-container" *ngIf="!cargando && !error">
+    <table class="usuarios-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Usuario</th>
+          <th>Email</th>
+          <th>Nombre Completo</th>
+          <th>Rol</th>
+          <th>Estado</th>
+          <th>Fecha Creación</th>
+          <th>Último Acceso</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let usuario of usuariosFiltrados">
+          <td>{{ usuario.usuarioId }}</td>
+          <td>{{ usuario.nombreUsuario }}</td>
+          <td>{{ usuario.email }}</td>
+          <td>{{ usuario.nombreCompleto }}</td>
+          <td>
+            <span class="badge" [ngClass]="{'badge-admin': usuario.rol === 'Admin', 'badge-usuario': usuario.rol === 'Usuario'}">
+              {{ usuario.rol }}
+            </span>
+          </td>
+          <td>
+            <span class="badge" [ngClass]="{'badge-activo': usuario.activo, 'badge-inactivo': !usuario.activo}">
+              {{ usuario.activo ? 'Activo' : 'Inactivo' }}
+            </span>
+          </td>
+          <td>{{ usuario.fechaCreacion | date:'dd/MM/yyyy' }}</td>
+          <td>{{ usuario.ultimoAcceso ? (usuario.ultimoAcceso | date:'dd/MM/yyyy HH:mm') : 'Nunca' }}</td>
+          <td class="acciones">
+            <button
+              class="btn-sm btn-success"
+              *ngIf="!usuario.activo"
+              (click)="activarUsuario(usuario.usuarioId)"
+              title="Activar usuario"
+            >
+              Activar
+            </button>
+            <button
+              class="btn-sm btn-warning"
+              *ngIf="usuario.activo"
+              (click)="desactivarUsuario(usuario.usuarioId)"
+              title="Desactivar usuario"
+            >
+              Desactivar
+            </button>
+            <button
+              class="btn-sm btn-primary"
+              (click)="cambiarRol(usuario)"
+              title="Cambiar rol"
+            >
+              Cambiar Rol
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="no-resultados" *ngIf="usuariosFiltrados.length === 0">
+      <p>No se encontraron usuarios con los filtros aplicados</p>
+    </div>
+  </div>
+</div>

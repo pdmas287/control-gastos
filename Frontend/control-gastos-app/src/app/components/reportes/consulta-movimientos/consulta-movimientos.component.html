@@ -1,0 +1,142 @@
+<div class="card">
+  <h2>Consulta de Movimientos</h2>
+
+  <!-- Filtros de Consulta -->
+  <div class="filtros-consulta">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Fecha Inicio *</label>
+        <input
+          type="date"
+          class="form-control"
+          [(ngModel)]="fechaInicio"
+          name="fechaInicio">
+      </div>
+
+      <div class="form-group">
+        <label>Fecha Fin *</label>
+        <input
+          type="date"
+          class="form-control"
+          [(ngModel)]="fechaFin"
+          name="fechaFin">
+      </div>
+
+      <div class="form-group">
+        <label>Tipo de Movimiento</label>
+        <select
+          class="form-control"
+          [(ngModel)]="filtroTipo"
+          name="filtroTipo"
+          (change)="onFiltroChange()">
+          <option *ngFor="let tipo of tiposMovimiento" [value]="tipo">
+            {{ tipo }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="botones-consulta">
+      <button class="btn btn-primary" (click)="consultarMovimientos()" [disabled]="cargando">
+        {{ cargando ? 'Consultando...' : 'Consultar Movimientos' }}
+      </button>
+      <button class="btn btn-secondary" (click)="limpiarConsulta()" [disabled]="cargando">
+        Limpiar
+      </button>
+      <button class="btn btn-success" (click)="exportarCSV()" [disabled]="!consultado || movimientosFiltrados.length === 0">
+        📥 Exportar CSV
+      </button>
+    </div>
+  </div>
+
+  <!-- Resumen de Resultados -->
+  <div *ngIf="consultado" class="resumen-movimientos">
+    <h3>Resumen del Período</h3>
+    <div class="resumen-cards">
+      <div class="resumen-card card-depositos">
+        <div class="card-icon">💰</div>
+        <div class="card-info">
+          <div class="card-label">Total Depósitos</div>
+          <div class="card-valor">+${{ calcularTotalDepositos() | number:'1.2-2' }}</div>
+        </div>
+      </div>
+
+      <div class="resumen-card card-gastos">
+        <div class="card-icon">💳</div>
+        <div class="card-info">
+          <div class="card-label">Total Gastos</div>
+          <div class="card-valor">-${{ calcularTotalGastos() | number:'1.2-2' }}</div>
+        </div>
+      </div>
+
+      <div class="resumen-card card-balance" [class.positivo]="calcularBalance() >= 0" [class.negativo]="calcularBalance() < 0">
+        <div class="card-icon">📊</div>
+        <div class="card-info">
+          <div class="card-label">Balance</div>
+          <div class="card-valor">
+            {{ calcularBalance() >= 0 ? '+' : '' }}${{ calcularBalance() | number:'1.2-2' }}
+          </div>
+        </div>
+      </div>
+
+      <div class="resumen-card card-total">
+        <div class="card-icon">📋</div>
+        <div class="card-info">
+          <div class="card-label">Total Movimientos</div>
+          <div class="card-valor">{{ movimientosFiltrados.length }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla de Movimientos -->
+  <div *ngIf="consultado" class="tabla-movimientos">
+    <table *ngIf="movimientosFiltrados.length > 0">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Tipo</th>
+          <th>Fondo Monetario</th>
+          <th>Descripción</th>
+          <th>Documento</th>
+          <th class="text-right">Monto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let movimiento of movimientosFiltrados" [class.fila-gasto]="movimiento.tipoMovimiento === 'Gasto'" [class.fila-deposito]="movimiento.tipoMovimiento === 'Depósito'">
+          <td>{{ movimiento.fecha | date:'dd/MM/yyyy' }}</td>
+          <td>
+            <span [class]="movimiento.tipoMovimiento === 'Gasto' ? 'badge-gasto' : 'badge-deposito'">
+              {{ movimiento.tipoMovimiento }}
+            </span>
+          </td>
+          <td>{{ movimiento.fondoMonetario }}</td>
+          <td>{{ movimiento.descripcion }}</td>
+          <td>{{ movimiento.tipoDocumento || '-' }}</td>
+          <td class="text-right">
+            <strong [class.monto-gasto]="movimiento.tipoMovimiento === 'Gasto'" [class.monto-deposito]="movimiento.tipoMovimiento === 'Depósito'">
+              {{ movimiento.tipoMovimiento === 'Gasto' ? '-' : '+' }}${{ movimiento.monto | number:'1.2-2' }}
+            </strong>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="movimientosFiltrados.length === 0" class="alert alert-info text-center">
+      No se encontraron movimientos para el rango de fechas y filtros seleccionados.
+    </div>
+  </div>
+
+  <!-- Mensaje antes de consultar -->
+  <div *ngIf="!consultado" class="mensaje-inicial">
+    <div class="alert alert-info text-center">
+      <strong>📅 Consultar Movimientos</strong>
+      <p>Seleccione un rango de fechas y haga clic en "Consultar Movimientos" para ver todos los gastos y depósitos del período.</p>
+      <ul class="lista-funciones">
+        <li>✅ Filtre por tipo de movimiento (Todos, Gastos, Depósitos)</li>
+        <li>✅ Vea el resumen con totales y balance</li>
+        <li>✅ Exporte los resultados a CSV para Excel</li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Preguntas y Discusiones
+    url: https://github.com/tu-usuario/control-gastos/discussions
+    about: Haz preguntas o inicia discusiones sobre el proyecto
+  - name: 📖 Documentación
+    url: https://github.com/tu-usuario/control-gastos/blob/main/README.md
+    about: Lee la documentación completa del proyecto
+  - name: 🚀 Guía de Despliegue
+    url: https://github.com/tu-usuario/control-gastos/blob/main/INSTRUCCIONES_DESPLIEGUE.md
+    about: Aprende cómo desplegar el proyecto

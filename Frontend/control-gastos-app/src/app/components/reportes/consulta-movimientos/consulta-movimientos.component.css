@@ -1,0 +1,304 @@
+h2, h3 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 28px;
+  border-bottom: 3px solid #9b59b6;
+  padding-bottom: 10px;
+}
+
+h3 {
+  font-size: 20px;
+  color: #9b59b6;
+  margin-top: 30px;
+}
+
+/* Filtros */
+.filtros-consulta {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  border-left: 4px solid #9b59b6;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.botones-consulta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Resumen */
+.resumen-movimientos {
+  margin-bottom: 30px;
+}
+
+.resumen-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.resumen-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-left: 4px solid #95a5a6;
+}
+
+.card-depositos {
+  border-left-color: #27ae60;
+}
+
+.card-gastos {
+  border-left-color: #e74c3c;
+}
+
+.card-balance.positivo {
+  border-left-color: #27ae60;
+  background-color: #f0fff4;
+}
+
+.card-balance.negativo {
+  border-left-color: #e74c3c;
+  background-color: #fff5f5;
+}
+
+.card-total {
+  border-left-color: #3498db;
+}
+
+.card-icon {
+  font-size: 36px;
+}
+
+.card-info {
+  flex: 1;
+}
+
+.card-label {
+  font-size: 12px;
+  color: #7f8c8d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-valor {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-top: 5px;
+}
+
+/* Tabla */
+.tabla-movimientos {
+  margin-top: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+thead {
+  background-color: #9b59b6;
+  color: white;
+}
+
+th {
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.fila-gasto {
+  border-left: 3px solid #e74c3c;
+}
+
+.fila-deposito {
+  border-left: 3px solid #27ae60;
+}
+
+/* Badges */
+.badge-gasto {
+  background-color: #e74c3c;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.badge-deposito {
+  background-color: #27ae60;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+
+/* Montos */
+.monto-gasto {
+  color: #e74c3c;
+}
+
+.monto-deposito {
+  color: #27ae60;
+}
+
+/* Mensaje inicial */
+.mensaje-inicial {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.lista-funciones {
+  list-style: none;
+  padding: 0;
+  margin-top: 15px;
+}
+
+.lista-funciones li {
+  padding: 8px 0;
+  font-size: 14px;
+}
+
+/* Botones */
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.btn-primary {
+  background-color: #9b59b6;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #8e44ad;
+}
+
+.btn-success {
+  background-color: #27ae60;
+  color: white;
+}
+
+.btn-success:hover:not(:disabled) {
+  background-color: #229954;
+}
+
+.btn-secondary {
+  background-color: #95a5a6;
+  color: white;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: #7f8c8d;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Alertas */
+.alert {
+  padding: 15px 20px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.alert-info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+  border: 1px solid #bee5eb;
+}
+
+/* Utilidades */
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .resumen-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .botones-consulta {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  th, td {
+    padding: 8px 6px;
+  }
+
+  .card-valor {
+    font-size: 20px;
+  }
+}

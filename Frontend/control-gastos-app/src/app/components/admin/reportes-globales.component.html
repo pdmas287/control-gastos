@@ -1,0 +1,99 @@
+<div class="reportes-container">
+  <h1>Reportes Globales</h1>
+  <p class="subtitle">Vista de todos los usuarios del sistema</p>
+
+  <!-- Filtros de fecha -->
+  <div class="filtros-container">
+    <h2>Período</h2>
+    <div class="filtros">
+      <div class="filtro-grupo">
+        <label for="fechaInicio">Fecha Inicio:</label>
+        <input
+          type="date"
+          id="fechaInicio"
+          [(ngModel)]="fechaInicio"
+        />
+      </div>
+
+      <div class="filtro-grupo">
+        <label for="fechaFin">Fecha Fin:</label>
+        <input
+          type="date"
+          id="fechaFin"
+          [(ngModel)]="fechaFin"
+        />
+      </div>
+
+      <button class="btn-primary" (click)="aplicarFiltros()">
+        Aplicar Filtros
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading" *ngIf="cargando">
+    <p>Cargando reportes...</p>
+  </div>
+
+  <!-- Resumen -->
+  <div class="resumen-container" *ngIf="!cargando">
+    <div class="resumen-card gastos">
+      <div class="icon">💸</div>
+      <div class="info">
+        <h3>Total Gastos</h3>
+        <p class="amount">${{ resumen.totalGastos | number:'1.2-2' }}</p>
+      </div>
+    </div>
+
+    <div class="resumen-card depositos">
+      <div class="icon">💰</div>
+      <div class="info">
+        <h3>Total Depósitos</h3>
+        <p class="amount">${{ resumen.totalDepositos | number:'1.2-2' }}</p>
+      </div>
+    </div>
+
+    <div class="resumen-card balance" [ngClass]="{'positivo': resumen.balance >= 0, 'negativo': resumen.balance < 0}">
+      <div class="icon">📊</div>
+      <div class="info">
+        <h3>Balance</h3>
+        <p class="amount">${{ resumen.balance | number:'1.2-2' }}</p>
+      </div>
+    </div>
+
+    <div class="resumen-card transacciones">
+      <div class="icon">📋</div>
+      <div class="info">
+        <h3>Transacciones</h3>
+        <p class="amount">{{ resumen.cantidadTransacciones }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Información adicional -->
+  <div class="info-container" *ngIf="!cargando">
+    <div class="info-card">
+      <h3>📝 Nota</h3>
+      <p>
+        Esta es la vista de administrador que muestra datos globales de <strong>todos los usuarios</strong> del sistema.
+      </p>
+      <p>
+        Los usuarios normales solo pueden ver sus propios datos en su dashboard personal.
+      </p>
+    </div>
+
+    <div class="info-card">
+      <h3>🔧 Implementación</h3>
+      <p>
+        Para completar este componente, conecta con el servicio de reportes del backend:
+      </p>
+      <ul>
+        <li>GET /api/Reporte/movimientos?fechaInicio=...&fechaFin=...</li>
+        <li>GET /api/Reporte/comparativo-presupuesto?fechaInicio=...&fechaFin=...</li>
+      </ul>
+      <p>
+        El backend ya está configurado para devolver datos de todos los usuarios cuando el usuario tiene rol Admin.
+      </p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+[build]
+builder = "nixpacks"
+buildCommand = "cd Backend/ControlGastos.API && dotnet publish -c Release -o out"
+
+[deploy]
+startCommand = "cd Backend/ControlGastos.API/out && dotnet ControlGastos.API.dll"
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 10

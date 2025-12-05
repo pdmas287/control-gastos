@@ -1,0 +1,310 @@
+h2, h3 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 28px;
+  border-bottom: 3px solid #e74c3c;
+  padding-bottom: 10px;
+}
+
+h3 {
+  font-size: 20px;
+  color: #e74c3c;
+  margin-top: 30px;
+}
+
+.card {
+  margin-bottom: 20px;
+}
+
+/* Secciones */
+.seccion-encabezado {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  border-left: 4px solid #3498db;
+}
+
+.seccion-detalles {
+  background-color: #fff9f0;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  border-left: 4px solid #e74c3c;
+}
+
+/* Formulario */
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #e74c3c;
+  box-shadow: 0 0 0 0.2rem rgba(231, 76, 60, 0.25);
+}
+
+/* Tabla de detalles */
+.tabla-detalles {
+  overflow-x: auto;
+  margin-top: 15px;
+}
+
+.tabla-detalles table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+.tabla-detalles thead {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.tabla-detalles th {
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.tabla-detalles tbody tr {
+  border-bottom: 1px solid #dee2e6;
+}
+
+.tabla-detalles tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.tabla-detalles td {
+  padding: 10px 12px;
+}
+
+.fila-detalle td {
+  vertical-align: middle;
+}
+
+.fila-total {
+  background-color: #ecf0f1;
+  font-size: 18px;
+}
+
+.fila-total td {
+  padding: 15px 12px;
+}
+
+.total-monto {
+  color: #e74c3c;
+  font-size: 24px;
+}
+
+/* Botones */
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.btn-lg {
+  padding: 12px 30px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-success {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-success:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background-color: #c82333;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: #5a6268;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.botones-accion {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+/* Alertas */
+.alert {
+  padding: 12px 20px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.alert-info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+  border: 1px solid #bee5eb;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.alert-warning {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+
+.alert ul {
+  margin-bottom: 0;
+  padding-left: 20px;
+}
+
+.alert li {
+  margin-top: 5px;
+}
+
+/* Utilidades */
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.mt-2 {
+  margin-top: 10px;
+}
+
+.mt-3 {
+  margin-top: 15px;
+}
+
+.mt-4 {
+  margin-top: 20px;
+}
+
+.mb-2 {
+  margin-bottom: 10px;
+}
+
+.mb-3 {
+  margin-bottom: 15px;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .tabla-detalles {
+    font-size: 12px;
+  }
+
+  .tabla-detalles th,
+  .tabla-detalles td {
+    padding: 8px 6px;
+  }
+
+  .botones-accion {
+    flex-direction: column;
+  }
+
+  .btn-lg {
+    width: 100%;
+  }
+
+  .total-monto {
+    font-size: 18px;
+  }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fila-detalle {
+  animation: fadeIn 0.3s ease-in-out;
+}

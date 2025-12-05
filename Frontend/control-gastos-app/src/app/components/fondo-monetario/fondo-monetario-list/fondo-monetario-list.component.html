@@ -1,0 +1,119 @@
+<div class="card">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Fondos Monetarios</h2>
+    <button class="btn btn-primary" (click)="showCreateForm()" *ngIf="!showForm">
+      Nuevo Fondo Monetario
+    </button>
+  </div>
+
+  <div *ngIf="showForm" class="card mb-3" style="background-color: #f8f9fa;">
+    <h3>{{ isEditing ? 'Editar' : 'Nuevo' }} Fondo Monetario</h3>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label>Nombre *</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="formData.nombre"
+          name="nombre"
+          placeholder="Ej: Cuenta Corriente BCP"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label>Tipo de Fondo *</label>
+        <select class="form-control" [(ngModel)]="formData.tipoFondo" name="tipoFondo" required>
+          <option value="Cuenta Bancaria">Cuenta Bancaria</option>
+          <option value="Caja Menuda">Caja Menuda</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Descripción</label>
+        <textarea
+          class="form-control"
+          [(ngModel)]="formData.descripcion"
+          name="descripcion"
+          rows="2"
+          placeholder="Descripción opcional del fondo"></textarea>
+      </div>
+
+      <div class="form-group" *ngIf="!isEditing">
+        <label>Saldo Inicial *</label>
+        <input
+          type="number"
+          class="form-control"
+          [(ngModel)]="formData.saldoActual"
+          name="saldoActual"
+          min="0"
+          step="0.01"
+          required>
+        <small class="form-text text-muted">
+          Solo se puede configurar al crear. Luego se actualiza automáticamente con depósitos y gastos.
+        </small>
+      </div>
+
+      <div class="form-group">
+        <label>
+          <input type="checkbox" [(ngModel)]="formData.activo" name="activo">
+          Activo
+        </label>
+      </div>
+
+      <div class="d-flex" style="gap: 10px;">
+        <button type="submit" class="btn btn-success" [disabled]="!formData.nombre || !formData.tipoFondo">
+          {{ isEditing ? 'Actualizar' : 'Guardar' }}
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="cancelForm()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <table *ngIf="fondosMonetarios.length > 0">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Tipo</th>
+        <th>Descripción</th>
+        <th>Saldo Actual</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let fondo of fondosMonetarios">
+        <td>{{ fondo.nombre }}</td>
+        <td>
+          <span [class]="fondo.tipoFondo === 'Cuenta Bancaria' ? 'badge-banco' : 'badge-caja'">
+            {{ fondo.tipoFondo }}
+          </span>
+        </td>
+        <td>{{ fondo.descripcion || '-' }}</td>
+        <td class="text-right">
+          <strong [style.color]="fondo.saldoActual >= 0 ? 'green' : 'red'">
+            ${{ fondo.saldoActual | number:'1.2-2' }}
+          </strong>
+        </td>
+        <td>
+          <span [style.color]="fondo.activo ? 'green' : 'red'">
+            {{ fondo.activo ? 'Activo' : 'Inactivo' }}
+          </span>
+        </td>
+        <td>
+          <button class="btn btn-primary" (click)="showEditForm(fondo)" style="margin-right: 5px;">
+            Editar
+          </button>
+          <button class="btn btn-danger" (click)="deleteFondoMonetario(fondo.fondoMonetarioId)">
+            Eliminar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="fondosMonetarios.length === 0" class="text-center">
+    No hay fondos monetarios registrados
+  </p>
+</div>

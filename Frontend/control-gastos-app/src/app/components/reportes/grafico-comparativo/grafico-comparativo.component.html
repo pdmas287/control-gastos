@@ -1,0 +1,180 @@
+<div class="card">
+  <h2>Gráfico Comparativo: Presupuesto vs Ejecución</h2>
+
+  <!-- Filtros -->
+  <div class="filtros-grafico">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Fecha Inicio *</label>
+        <input
+          type="date"
+          class="form-control"
+          [(ngModel)]="fechaInicio"
+          name="fechaInicio">
+      </div>
+
+      <div class="form-group">
+        <label>Fecha Fin *</label>
+        <input
+          type="date"
+          class="form-control"
+          [(ngModel)]="fechaFin"
+          name="fechaFin">
+      </div>
+    </div>
+
+    <div class="botones-grafico">
+      <button class="btn btn-primary" (click)="generarGrafico()" [disabled]="cargando">
+        {{ cargando ? 'Generando...' : '📊 Generar Gráfico' }}
+      </button>
+      <button class="btn btn-secondary" (click)="limpiarGrafico()" [disabled]="cargando">
+        Limpiar
+      </button>
+      <button class="btn btn-success" (click)="exportarPDF()" [disabled]="!consultado">
+        📄 Imprimir / PDF
+      </button>
+    </div>
+  </div>
+
+  <!-- Resumen General -->
+  <div *ngIf="consultado" class="resumen-general">
+    <h3>Resumen General del Período</h3>
+    <div class="resumen-cards">
+      <div class="resumen-card">
+        <div class="card-label">Total Presupuestado</div>
+        <div class="card-valor presupuestado">${{ calcularTotalPresupuestado() | number:'1.2-2' }}</div>
+      </div>
+      <div class="resumen-card">
+        <div class="card-label">Total Ejecutado</div>
+        <div class="card-valor ejecutado">${{ calcularTotalEjecutado() | number:'1.2-2' }}</div>
+      </div>
+      <div class="resumen-card">
+        <div class="card-label">Diferencia</div>
+        <div class="card-valor" [class.positivo]="calcularDiferenciaTotal() >= 0" [class.negativo]="calcularDiferenciaTotal() < 0">
+          {{ calcularDiferenciaTotal() >= 0 ? '+' : '' }}${{ calcularDiferenciaTotal() | number:'1.2-2' }}
+        </div>
+      </div>
+      <div class="resumen-card">
+        <div class="card-label">% Ejecución Promedio</div>
+        <div class="card-valor" [style.color]="getColorPorcentaje(getPorcentajeEjecucionPromedio())">
+          {{ getPorcentajeEjecucionPromedio() | number:'1.1-1' }}%
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gráfico de Barras (CSS) -->
+  <div *ngIf="mostrarGrafico" class="grafico-container">
+    <h3>Gráfico Comparativo por Tipo de Gasto</h3>
+
+    <div class="grafico-barras">
+      <div class="grafico-item" *ngFor="let dato of datos">
+        <div class="tipo-gasto-label">{{ dato.tipoGasto }}</div>
+        <div class="barras-container">
+          <!-- Barra Presupuestado -->
+          <div class="barra-wrapper">
+            <div class="barra-label">Presupuestado</div>
+            <div class="barra presupuestado" [style.width.%]="getBarWidth(dato.montoPresupuestado, getMaxMonto())">
+              <span class="barra-valor">${{ dato.montoPresupuestado | number:'1.0-0' }}</span>
+            </div>
+          </div>
+          <!-- Barra Ejecutado -->
+          <div class="barra-wrapper">
+            <div class="barra-label">Ejecutado</div>
+            <div class="barra ejecutado" [style.width.%]="getBarWidth(dato.montoEjecutado, getMaxMonto())">
+              <span class="barra-valor">${{ dato.montoEjecutado | number:'1.0-0' }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="porcentaje-badge" [style.background-color]="getColorPorcentaje(dato.porcentajeEjecucion)">
+          {{ dato.porcentajeEjecucion >= 999 ? '∞' : (dato.porcentajeEjecucion | number:'1.0-0') + '%' }}
+        </div>
+      </div>
+    </div>
+
+    <div class="leyenda">
+      <div class="leyenda-item">
+        <span class="leyenda-color presupuestado"></span>
+        <span>Presupuestado</span>
+      </div>
+      <div class="leyenda-item">
+        <span class="leyenda-color ejecutado"></span>
+        <span>Ejecutado</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabla de Datos -->
+  <div *ngIf="consultado" class="tabla-datos">
+    <h3>Detalle de Datos</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Tipo de Gasto</th>
+          <th class="text-right">Presupuestado</th>
+          <th class="text-right">Ejecutado</th>
+          <th class="text-right">Diferencia</th>
+          <th class="text-right">% Ejecución</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let dato of datos">
+          <td><strong>{{ dato.tipoGasto }}</strong></td>
+          <td class="text-right">${{ dato.montoPresupuestado | number:'1.2-2' }}</td>
+          <td class="text-right">${{ dato.montoEjecutado | number:'1.2-2' }}</td>
+          <td class="text-right" [class.positivo]="dato.diferencia >= 0" [class.negativo]="dato.diferencia < 0">
+            {{ dato.diferencia >= 0 ? '+' : '' }}${{ dato.diferencia | number:'1.2-2' }}
+          </td>
+          <td class="text-right" [style.color]="getColorPorcentaje(dato.porcentajeEjecucion)">
+            <strong>{{ dato.porcentajeEjecucion >= 999 ? '∞' : (dato.porcentajeEjecucion | number:'1.1-1') }}{{ dato.porcentajeEjecucion < 999 ? '%' : '' }}</strong>
+          </td>
+          <td>
+            <span class="estado-badge" [style.background-color]="getColorPorcentaje(dato.porcentajeEjecucion)">
+              {{ dato.porcentajeEjecucion >= 999 ? '✗ Sin Presupuesto' : dato.porcentajeEjecucion <= 70 ? '✓ Bien' : dato.porcentajeEjecucion <= 90 ? '⚠ Cuidado' : dato.porcentajeEjecucion <= 100 ? '⚠ Alerta' : '✗ Sobregiro' }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="fila-total">
+          <td><strong>TOTALES</strong></td>
+          <td class="text-right"><strong>${{ calcularTotalPresupuestado() | number:'1.2-2' }}</strong></td>
+          <td class="text-right"><strong>${{ calcularTotalEjecutado() | number:'1.2-2' }}</strong></td>
+          <td class="text-right" [class.positivo]="calcularDiferenciaTotal() >= 0" [class.negativo]="calcularDiferenciaTotal() < 0">
+            <strong>{{ calcularDiferenciaTotal() >= 0 ? '+' : '' }}${{ calcularDiferenciaTotal() | number:'1.2-2' }}</strong>
+          </td>
+          <td class="text-right" [style.color]="getColorPorcentaje(getPorcentajeEjecucionPromedio())">
+            <strong>{{ getPorcentajeEjecucionPromedio() | number:'1.1-1' }}%</strong>
+          </td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <!-- Mensaje inicial -->
+  <div *ngIf="!consultado" class="mensaje-inicial">
+    <div class="alert alert-info text-center">
+      <strong>📊 Análisis de Presupuesto</strong>
+      <p>Seleccione un rango de fechas y haga clic en "Generar Gráfico" para ver el comparativo entre lo presupuestado y lo ejecutado.</p>
+      <ul class="lista-funciones">
+        <li>📊 Visualice gráfico de barras comparativo</li>
+        <li>📈 Vea porcentajes de ejecución por tipo de gasto</li>
+        <li>🎯 Identifique sobregiros con código de colores</li>
+        <li>📄 Exporte o imprima el reporte</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Indicadores de Color -->
+  <div *ngIf="consultado" class="indicadores-color">
+    <h4>Indicadores de Estado</h4>
+    <div class="indicadores-lista">
+      <div class="indicador"><span class="color" style="background-color: #27ae60;"></span> 0-70%: Excelente control</div>
+      <div class="indicador"><span class="color" style="background-color: #f39c12;"></span> 71-90%: Revisar gastos</div>
+      <div class="indicador"><span class="color" style="background-color: #e67e22;"></span> 91-100%: Alerta - Cerca del límite</div>
+      <div class="indicador"><span class="color" style="background-color: #e74c3c;"></span> >100%: Sobregiro - Ajustar presupuesto</div>
+    </div>
+  </div>
+</div>

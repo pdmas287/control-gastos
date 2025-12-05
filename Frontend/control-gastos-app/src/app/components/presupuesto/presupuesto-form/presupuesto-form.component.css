@@ -1,0 +1,34 @@
+h2, h3 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.filters {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+  align-items: flex-end;
+}
+
+.form-group {
+  flex: 1;
+}
+
+table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+table tbody td input.form-control {
+  max-width: 200px;
+}
+
+tfoot {
+  font-size: 16px;
+  background-color: #f8f9fa;
+}

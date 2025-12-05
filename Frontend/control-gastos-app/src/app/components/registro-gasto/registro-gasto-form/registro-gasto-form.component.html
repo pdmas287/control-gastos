@@ -1,0 +1,180 @@
+<div class="card">
+  <h2>Registro de Gastos</h2>
+
+  <form (ngSubmit)="onSubmit()">
+    <!-- ENCABEZADO -->
+    <div class="seccion-encabezado">
+      <h3>Encabezado del Gasto</h3>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Fecha *</label>
+          <input
+            type="date"
+            class="form-control"
+            [value]="formatDate(fecha)"
+            (input)="fecha = $any($event.target).value"
+            name="fecha"
+            required>
+        </div>
+
+        <div class="form-group">
+          <label>Fondo Monetario *</label>
+          <select class="form-control" [(ngModel)]="fondoMonetarioId" name="fondoMonetario" required>
+            <option value="0">Seleccione un fondo...</option>
+            <option *ngFor="let fondo of fondosMonetarios" [value]="fondo.fondoMonetarioId">
+              {{ fondo.nombre }} - Saldo: ${{ fondo.saldoActual | number:'1.2-2' }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre del Comercio *</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="nombreComercio"
+            name="nombreComercio"
+            placeholder="Ej: Supermercado XYZ, Gasolinera ABC, etc."
+            required>
+        </div>
+
+        <div class="form-group">
+          <label>Tipo de Documento *</label>
+          <select class="form-control" [(ngModel)]="tipoDocumento" name="tipoDocumento" required>
+            <option value="Comprobante">Comprobante</option>
+            <option value="Factura">Factura</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Observaciones</label>
+        <textarea
+          class="form-control"
+          [(ngModel)]="observaciones"
+          name="observaciones"
+          rows="2"
+          placeholder="Observaciones adicionales (opcional)"></textarea>
+      </div>
+    </div>
+
+    <!-- DETALLES -->
+    <div class="seccion-detalles">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Detalle del Gasto</h3>
+        <button type="button" class="btn btn-secondary" (click)="agregarDetalle()">
+          + Agregar Detalle
+        </button>
+      </div>
+
+      <div class="alert alert-info">
+        <strong>💡 Importante:</strong> Puede agregar múltiples tipos de gasto en una misma factura o comprobante.
+        Por ejemplo: en un supermercado puede comprar Alimentación, Artículos de Limpieza, etc.
+      </div>
+
+      <div class="tabla-detalles">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 50px;">#</th>
+              <th style="width: 35%;">Tipo de Gasto *</th>
+              <th style="width: 20%;">Monto *</th>
+              <th style="width: 30%;">Descripción</th>
+              <th style="width: 100px;">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let detalle of detalles; let i = index" [class.fila-detalle]="true">
+              <td class="text-center">{{ i + 1 }}</td>
+              <td>
+                <select
+                  class="form-control"
+                  [(ngModel)]="detalle.tipoGastoId"
+                  [name]="'tipoGasto_' + i"
+                  required>
+                  <option value="0">Seleccione...</option>
+                  <option *ngFor="let tipo of tiposGasto" [value]="tipo.tipoGastoId">
+                    {{ tipo.descripcion }}
+                  </option>
+                </select>
+              </td>
+              <td>
+                <input
+                  type="number"
+                  class="form-control"
+                  [(ngModel)]="detalle.monto"
+                  [name]="'monto_' + i"
+                  min="0.01"
+                  step="0.01"
+                  placeholder="0.00"
+                  required>
+              </td>
+              <td>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="detalle.descripcion"
+                  [name]="'descripcion_' + i"
+                  placeholder="Descripción del gasto">
+              </td>
+              <td class="text-center">
+                <button
+                  type="button"
+                  class="btn btn-danger btn-sm"
+                  (click)="eliminarDetalle(i)"
+                  [disabled]="detalles.length === 1"
+                  title="Eliminar línea">
+                  🗑️
+                </button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="fila-total">
+              <td colspan="2" class="text-right"><strong>Total del Gasto:</strong></td>
+              <td colspan="3">
+                <strong class="total-monto">${{ calcularTotal() | number:'1.2-2' }}</strong>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <div class="alert alert-warning mt-2" *ngIf="detalles.length === 0">
+        ⚠️ Debe agregar al menos un detalle para poder guardar el gasto
+      </div>
+    </div>
+
+    <!-- BOTONES -->
+    <div class="botones-accion mt-4">
+      <button
+        type="submit"
+        class="btn btn-success btn-lg"
+        [disabled]="guardando || detalles.length === 0">
+        {{ guardando ? 'Guardando...' : 'Guardar Gasto' }}
+      </button>
+      <button
+        type="button"
+        class="btn btn-secondary btn-lg"
+        (click)="limpiarFormulario()"
+        [disabled]="guardando">
+        Limpiar Formulario
+      </button>
+    </div>
+
+    <!-- AYUDA -->
+    <div class="alert alert-success mt-3">
+      <strong>ℹ️ Información del Sistema:</strong>
+      <ul>
+        <li>El sistema validará automáticamente si está excediendo su presupuesto mensual</li>
+        <li>Si hay sobregiro, se mostrará una alerta detallada pero el gasto SÍ se guardará</li>
+        <li>El saldo del fondo monetario se reducirá automáticamente con el monto total</li>
+        <li>Todos los campos marcados con (*) son obligatorios</li>
+      </ul>
+    </div>
+  </form>
+</div>
