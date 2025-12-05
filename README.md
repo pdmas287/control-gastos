@@ -1,11 +1,13 @@
 # 💰 Sistema de Control de Gastos
 
-[![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?style=flat&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)
+[![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=flat&logo=dotnet&logoColor=white)](https://dotnet.microsoft.com/)
 [![Angular](https://img.shields.io/badge/Angular-17.0-DD0031?style=flat&logo=angular&logoColor=white)](https://angular.io/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15+-336791?style=flat&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-Sistema web completo para el control y gestión de gastos personales, desarrollado con .NET 10, Angular 17 y PostgreSQL. Permite a los usuarios registrar gastos, administrar presupuestos, gestionar fondos monetarios y generar reportes detallados.
+Sistema web completo para el control y gestión de gastos personales, desarrollado con .NET 8.0, Angular 17 y PostgreSQL. Permite a los usuarios registrar gastos, administrar presupuestos, gestionar fondos monetarios y generar reportes detallados.
+
+> **🚀 Estado del Deployment:** Backend desplegado en Railway | [Ver guía de configuración →](CONFIGURACION_SUPABASE_RAILWAY.md)
 
 ![Dashboard Preview](https://via.placeholder.com/800x400/4A90E2/FFFFFF?text=Sistema+de+Control+de+Gastos)
 
@@ -52,9 +54,10 @@ Sistema web completo para el control y gestión de gastos personales, desarrolla
 
 ### Backend
 
-- **.NET 10**: Framework principal
+- **.NET 8.0**: Framework principal
 - **ASP.NET Core Web API**: API RESTful
-- **Entity Framework Core 10**: ORM para PostgreSQL
+- **Entity Framework Core 8.0**: ORM para PostgreSQL
+- **Npgsql.EntityFrameworkCore.PostgreSQL**: Provider de PostgreSQL
 - **JWT Bearer Authentication**: Seguridad y autenticación
 - **Swagger/OpenAPI**: Documentación de API
 
@@ -83,11 +86,17 @@ Sistema web completo para el control y gestión de gastos personales, desarrolla
 
 ### Para desarrollo local
 
-- [.NET SDK 10.0](https://dotnet.microsoft.com/download/dotnet/10.0) o superior
+- [.NET SDK 8.0](https://dotnet.microsoft.com/download/dotnet/8.0) o superior
 - [Node.js 18.x](https://nodejs.org/) o superior
 - [PostgreSQL 15+](https://www.postgresql.org/download/) (o cuenta en Supabase)
 - [Angular CLI 17](https://angular.io/cli)
 - [Git](https://git-scm.com/)
+
+### Para deployment en producción
+
+- Cuenta en [Supabase](https://supabase.com) (Base de datos - Free)
+- Cuenta en [Railway](https://railway.app) (Backend - Free)
+- Cuenta en [Vercel](https://vercel.com) (Frontend - Free)
 
 ## 🛠️ Instalación y Configuración Local
 
@@ -168,17 +177,22 @@ Password: Admin123!
 
 ## 🌐 Despliegue en Producción
 
-Para desplegar la aplicación de forma **100% GRATUITA** en la nube, sigue la guía detallada:
+Para desplegar la aplicación de forma **100% GRATUITA** en la nube, sigue las guías detalladas:
 
-📖 **[Ver Instrucciones de Despliegue Completas](INSTRUCCIONES_DESPLIEGUE.md)**
+### 📚 Documentación de Deployment
+
+- 🚀 **[Guía Paso a Paso - Supabase + Railway](CONFIGURACION_SUPABASE_RAILWAY.md)** ← RECOMENDADO
+- 📋 **[Pasos Inmediatos](PASOS_INMEDIATOS.md)** - Quick reference
+- 📊 **[Estado Actual del Proyecto](ESTADO_ACTUAL.md)** - Qué está hecho y qué falta
+- 📖 **[Instrucciones Completas](INSTRUCCIONES_DESPLIEGUE.md)** - Guía general
 
 ### Resumen de despliegue
 
 1. **Base de Datos**: Supabase (PostgreSQL gratuito)
-2. **Backend API**: Railway (500 horas/mes gratis)
-3. **Frontend**: Vercel (deployments ilimitados gratis)
+2. **Backend API**: Railway (500 horas/mes gratis) - ✅ **YA DESPLEGADO**
+3. **Frontend**: Vercel (deployments ilimitados gratis) - ⏳ **Pendiente configurar**
 
-**Tiempo estimado de despliegue**: 30-45 minutos
+**Tiempo estimado restante**: 15-20 minutos (solo configuración de variables)
 
 ## 📁 Estructura del Proyecto
 
@@ -206,12 +220,25 @@ control-gastos/
 │       └── package.json
 │
 ├── Database/
-│   └── supabase-schema.sql      # Script SQL de la BD
+│   └── supabase-schema.sql              # Script SQL de la BD
 │
-├── railway.toml                  # Configuración Railway
-├── INSTRUCCIONES_DESPLIEGUE.md  # Guía de despliegue
-├── CAMBIOS_REALIZADOS.md        # Documentación técnica
-└── README.md                     # Este archivo
+├── scripts/
+│   ├── cleanup-before-commit.ps1        # Limpieza de archivos
+│   ├── verify-railway-ready.ps1         # Verificación pre-deploy
+│   └── generar-jwt-key.ps1              # Generador de clave JWT
+│
+├── Dockerfile                            # Docker para Railway
+├── .railway.toml                         # Configuración Railway
+├── nixpacks.toml                         # Config alternativa Railway
+├── vercel.json                           # Configuración Vercel
+├── CONFIGURACION_SUPABASE_RAILWAY.md    # 🚀 Guía paso a paso
+├── PASOS_INMEDIATOS.md                  # Quick reference
+├── ESTADO_ACTUAL.md                     # Estado del proyecto
+├── INSTRUCCIONES_DESPLIEGUE.md          # Guía general
+├── CAMBIOS_REALIZADOS.md                # Documentación técnica
+├── CONTRIBUTING.md                      # Guía de contribución
+├── LICENSE                              # Licencia MIT
+└── README.md                            # Este archivo
 ```
 
 ## 🔌 API Endpoints
