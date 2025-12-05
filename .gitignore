@@ -2,6 +2,10 @@
 # .NET / C# / Backend
 # ============================================
 
+# JWT Keys (temporary files)
+jwt-key-temp.txt
+*jwt-key*.txt
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
