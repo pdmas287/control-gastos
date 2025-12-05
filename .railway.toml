@@ -1,0 +1,8 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+startCommand = "dotnet Backend/ControlGastos.API/out/ControlGastos.API.dll"
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 10
