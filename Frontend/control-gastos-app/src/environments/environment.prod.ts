@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://[YOUR-RAILWAY-APP-URL].up.railway.app/api'
+  apiUrl: 'control-gastos-production-3edf.up.railway.app'
 };
