@@ -1,0 +1,11 @@
+[phases.setup]
+nixPkgs = ['dotnet-sdk_8']
+
+[phases.install]
+cmds = ['dotnet restore']
+
+[phases.build]
+cmds = ['cd Backend/ControlGastos.API && dotnet publish -c Release -o out']
+
+[start]
+cmd = 'cd Backend/ControlGastos.API/out && dotnet ControlGastos.API.dll'
