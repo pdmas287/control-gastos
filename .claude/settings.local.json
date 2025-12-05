@@ -15,7 +15,8 @@
       "Bash(if not exist \"Frontend\\control-gastos-app\\src\\environments\" mkdir \"Frontend\\control-gastos-app\\src\\environments\")",
       "Bash(dotnet restore:*)",
       "Bash(powershell:*)",
-      "Bash(git config:*)"
+      "Bash(git config:*)",
+      "Bash(git add:*)"
     ],
     "deny": [],
     "ask": []
