@@ -24,12 +24,14 @@ ConnectionStrings__DefaultConnection
 
 **Variable Value:**
 ```
-Host=db.vpcfyvzxytddrcdeyrrx.supabase.co;Port=5432;Database=postgres;Username=postgres;Password=GraciasDios28.;SSL Mode=Require;Trust Server Certificate=true
+Host=db.vpcfyvzxytddrcdeyrrx.supabase.co;Port=6543;Database=postgres;Username=postgres.vpcfyvzxytddrcdeyrrx;Password=GraciasDios28.;SSL Mode=Require;Trust Server Certificate=true
 ```
 
 **⚠️ IMPORTANTE:**
 - El nombre debe tener DOBLE guión bajo: `ConnectionStrings__DefaultConnection`
 - NO uses un solo guión bajo `_`
+- Usa el **puerto 6543** (transaction pooler) en lugar de 5432 (esto evita problemas de IPv6)
+- El username debe incluir el project ref: `postgres.vpcfyvzxytddrcdeyrrx`
 
 ---
 
