@@ -17,7 +17,10 @@ RUN dotnet publish -c Release -o /app/publish
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/publish .
+COPY Backend/ControlGastos.API/entrypoint.sh /app/entrypoint.sh
 
-# Railway dynamically assigns PORT
-# We'll set ASPNETCORE_URLS at runtime using a shell script
-CMD ["sh", "-c", "export ASPNETCORE_URLS=http://0.0.0.0:${PORT:-8080} && dotnet ControlGastos.API.dll"]
+# Make entrypoint executable
+RUN chmod +x /app/entrypoint.sh
+
+# Use entrypoint script to handle PORT variable
+ENTRYPOINT ["/app/entrypoint.sh"]
