@@ -73,7 +73,7 @@ namespace ControlGastos.API.Services
                 SaldoActual = dto.SaldoActual,
                 Activo = dto.Activo,
                 UsuarioId = usuarioId,
-                FechaCreacion = DateTime.Now
+                FechaCreacion = DateTime.UtcNow
             };
 
             _context.FondosMonetarios.Add(fondo);
@@ -108,7 +108,7 @@ namespace ControlGastos.API.Services
             fondo.TipoFondo = dto.TipoFondo;
             fondo.Descripcion = dto.Descripcion;
             fondo.Activo = dto.Activo;
-            fondo.FechaModificacion = DateTime.Now;
+            fondo.FechaModificacion = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
 
@@ -139,7 +139,7 @@ namespace ControlGastos.API.Services
 
             // Soft delete: solo marcar como inactivo
             fondo.Activo = false;
-            fondo.FechaModificacion = DateTime.Now;
+            fondo.FechaModificacion = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
             return true;

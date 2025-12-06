@@ -53,8 +53,8 @@ namespace ControlGastos.API.Services
                 NombreCompleto = registroDto.NombreCompleto,
                 RolId = rolUsuario.RolId,
                 Activo = true,
-                FechaCreacion = DateTime.Now,
-                UltimoAcceso = DateTime.Now
+                FechaCreacion = DateTime.UtcNow,
+                UltimoAcceso = DateTime.UtcNow
             };
 
             _context.Usuarios.Add(nuevoUsuario);
@@ -76,7 +76,7 @@ namespace ControlGastos.API.Services
                 NombreCompleto = usuarioConRol.NombreCompleto,
                 Rol = usuarioConRol.Rol!.Nombre,
                 Token = token,
-                FechaExpiracion = DateTime.Now.AddDays(7)
+                FechaExpiracion = DateTime.UtcNow.AddDays(7)
             };
         }
 
@@ -114,7 +114,7 @@ namespace ControlGastos.API.Services
                 NombreCompleto = usuario.NombreCompleto,
                 Rol = usuario.Rol!.Nombre,
                 Token = token,
-                FechaExpiracion = DateTime.Now.AddDays(7)
+                FechaExpiracion = DateTime.UtcNow.AddDays(7)
             };
         }
 
@@ -160,7 +160,7 @@ namespace ControlGastos.API.Services
 
             // Actualizar password
             usuario.PasswordHash = HashPassword(cambiarPasswordDto.NuevaPassword);
-            usuario.FechaModificacion = DateTime.Now;
+            usuario.FechaModificacion = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
             return true;
@@ -171,7 +171,7 @@ namespace ControlGastos.API.Services
             var usuario = await _context.Usuarios.FindAsync(usuarioId);
             if (usuario != null)
             {
-                usuario.UltimoAcceso = DateTime.Now;
+                usuario.UltimoAcceso = DateTime.UtcNow;
                 await _context.SaveChangesAsync();
             }
         }
@@ -215,7 +215,7 @@ namespace ControlGastos.API.Services
                 issuer: jwtIssuer,
                 audience: jwtAudience,
                 claims: claims,
-                expires: DateTime.Now.AddDays(7),
+                expires: DateTime.UtcNow.AddDays(7),
                 signingCredentials: credentials
             );
 

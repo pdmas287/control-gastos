@@ -130,7 +130,7 @@ namespace ControlGastos.API.Services
                     Observaciones = dto.Observaciones,
                     MontoTotal = montoTotal,
                     UsuarioId = usuarioId,
-                    FechaCreacion = DateTime.Now
+                    FechaCreacion = DateTime.UtcNow
                 };
 
                 _context.RegistrosGastoEncabezado.Add(encabezado);

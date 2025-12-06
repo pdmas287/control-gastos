@@ -75,7 +75,7 @@ namespace ControlGastos.API.Services
                 Monto = dto.Monto,
                 Descripcion = dto.Descripcion,
                 UsuarioId = usuarioId,
-                FechaCreacion = DateTime.Now
+                FechaCreacion = DateTime.UtcNow
             };
 
             _context.Depositos.Add(deposito);
@@ -141,7 +141,7 @@ namespace ControlGastos.API.Services
             deposito.FondoMonetarioId = dto.FondoMonetarioId;
             deposito.Monto = dto.Monto;
             deposito.Descripcion = dto.Descripcion;
-            deposito.FechaModificacion = DateTime.Now;
+            deposito.FechaModificacion = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
 

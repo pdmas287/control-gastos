@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python test_hash.py:*)"
+      "Bash(python test_hash.py:*)",
+      "Bash(cat:*)",
+      "Bash(python:*)",
+      "Bash(find:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nfix: replace DateTime.Now with DateTime.UtcNow for PostgreSQL compatibility\n\nPostgreSQL requires UTC timestamps for ''timestamp with time zone'' columns.\nChanged all DateTime.Now to DateTime.UtcNow across the entire codebase to\nfix \"Cannot write DateTime with Kind=Local\" errors.\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n)\")"
     ],
     "deny": [],
     "ask": []

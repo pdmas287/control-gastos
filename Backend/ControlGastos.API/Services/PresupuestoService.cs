@@ -120,7 +120,7 @@ namespace ControlGastos.API.Services
                 Anio = dto.Anio,
                 MontoPresupuestado = dto.MontoPresupuestado,
                 UsuarioId = usuarioId,
-                FechaCreacion = DateTime.Now
+                FechaCreacion = DateTime.UtcNow
             };
 
             _context.Presupuestos.Add(presupuesto);
@@ -159,7 +159,7 @@ namespace ControlGastos.API.Services
             if (presupuesto == null) return null;
 
             presupuesto.MontoPresupuestado = dto.MontoPresupuestado;
-            presupuesto.FechaModificacion = DateTime.Now;
+            presupuesto.FechaModificacion = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
 

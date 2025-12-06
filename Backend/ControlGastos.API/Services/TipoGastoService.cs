@@ -77,7 +77,7 @@ namespace ControlGastos.API.Services
                 Descripcion = dto.Descripcion,
                 Activo = dto.Activo,
                 UsuarioId = usuarioId,
-                FechaCreacion = DateTime.Now
+                FechaCreacion = DateTime.UtcNow
             };
 
             _context.TiposGasto.Add(tipoGasto);
@@ -115,7 +115,7 @@ namespace ControlGastos.API.Services
 
             tipoGasto.Descripcion = dto.Descripcion;
             tipoGasto.Activo = dto.Activo;
-            tipoGasto.FechaModificacion = DateTime.Now;
+            tipoGasto.FechaModificacion = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
 
@@ -170,7 +170,7 @@ namespace ControlGastos.API.Services
 
             // Si no tiene gastos ni presupuestos, permitir inactivar
             tipoGasto.Activo = false;
-            tipoGasto.FechaModificacion = DateTime.Now;
+            tipoGasto.FechaModificacion = DateTime.UtcNow;
 
             await _context.SaveChangesAsync();
             return true;

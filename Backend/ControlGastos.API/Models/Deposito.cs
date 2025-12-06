@@ -23,7 +23,7 @@ namespace ControlGastos.API.Models
         [StringLength(300)]
         public string? Descripcion { get; set; }
 
-        public DateTime FechaCreacion { get; set; } = DateTime.Now;
+        public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
 
         public DateTime? FechaModificacion { get; set; }
 

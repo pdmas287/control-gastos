@@ -30,7 +30,7 @@ namespace ControlGastos.API.Models
         [Column(TypeName = "decimal(18,2)")]
         public decimal MontoTotal { get; set; } = 0;
 
-        public DateTime FechaCreacion { get; set; } = DateTime.Now;
+        public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
 
         public DateTime? FechaModificacion { get; set; }
 
