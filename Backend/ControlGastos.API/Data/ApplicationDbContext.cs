@@ -29,9 +29,33 @@ namespace ControlGastos.API.Data
             modelBuilder.Entity<TipoGasto>().ToTable("tipogasto");
             modelBuilder.Entity<FondoMonetario>().ToTable("fondomonetario");
             modelBuilder.Entity<Presupuesto>().ToTable("presupuesto");
-            modelBuilder.Entity<RegistroGastoEncabezado>().ToTable("registrogasto");
+            modelBuilder.Entity<RegistroGastoEncabezado>().ToTable("registrogastoencabezado");
             modelBuilder.Entity<RegistroGastoDetalle>().ToTable("registrogastodetalle");
             modelBuilder.Entity<Deposito>().ToTable("deposito");
+
+            // Configurar nombres de columnas para PostgreSQL (lowercase)
+            modelBuilder.Entity<Rol>(entity =>
+            {
+                entity.Property(e => e.RolId).HasColumnName("rolid");
+                entity.Property(e => e.Nombre).HasColumnName("nombre");
+                entity.Property(e => e.Descripcion).HasColumnName("descripcion");
+                entity.Property(e => e.Activo).HasColumnName("activo");
+                entity.Property(e => e.FechaCreacion).HasColumnName("fechacreacion");
+            });
+
+            modelBuilder.Entity<Usuario>(entity =>
+            {
+                entity.Property(e => e.UsuarioId).HasColumnName("usuarioid");
+                entity.Property(e => e.NombreUsuario).HasColumnName("nombreusuario");
+                entity.Property(e => e.Email).HasColumnName("email");
+                entity.Property(e => e.PasswordHash).HasColumnName("passwordhash");
+                entity.Property(e => e.NombreCompleto).HasColumnName("nombrecompleto");
+                entity.Property(e => e.Activo).HasColumnName("activo");
+                entity.Property(e => e.FechaCreacion).HasColumnName("fechacreacion");
+                entity.Property(e => e.FechaModificacion).HasColumnName("fechamodificacion");
+                entity.Property(e => e.UltimoAcceso).HasColumnName("ultimoacceso");
+                entity.Property(e => e.RolId).HasColumnName("rolid");
+            });
 
             // Configurar Rol
             modelBuilder.Entity<Rol>(entity =>
