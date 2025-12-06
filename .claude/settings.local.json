@@ -1,28 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Bash(dir:*)",
-      "Bash(findstr:*)",
-      "Bash(dotnet add package:*)",
-      "Bash(dotnet run)",
-      "Bash(npm start)",
-      "Bash(taskkill /F /PID 20080)",
-      "Bash(taskkill //F //PID 20080)",
-      "Bash(timeout /t 3)",
-      "Bash(dotnet build:*)",
-      "Bash(taskkill:*)",
-      "Bash(if not exist \"environments\" mkdir environments)",
-      "Bash(if not exist \"Frontend\\control-gastos-app\\src\\environments\" mkdir \"Frontend\\control-gastos-app\\src\\environments\")",
-      "Bash(dotnet restore:*)",
-      "Bash(powershell:*)",
-      "Bash(git config:*)",
-      "Bash(git add:*)",
-      "Bash(git commit:*)",
-      "Bash(git push:*)",
-      "Bash(npm run build:*)",
-      "Bash(dotnet ef database update:*)",
-      "Bash(dotnet tool install:*)",
-      "Bash(dotnet tool:*)"
+      "Bash(python test_hash.py:*)"
     ],
     "deny": [],
     "ask": []
