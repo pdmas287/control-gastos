@@ -121,5 +121,24 @@ namespace ControlGastos.API.Controllers
         {
             return Ok(new { valid = true });
         }
+
+        /// <summary>
+        /// Genera un hash para testing (SOLO PARA DESARROLLO - ELIMINAR EN PRODUCCIÓN)
+        /// </summary>
+        [HttpPost("test-hash")]
+        public ActionResult<object> TestHash([FromBody] TestHashDto dto)
+        {
+            using (var sha256 = System.Security.Cryptography.SHA256.Create())
+            {
+                var hashedBytes = sha256.ComputeHash(System.Text.Encoding.UTF8.GetBytes(dto.Password));
+                var hash = Convert.ToBase64String(hashedBytes);
+                return Ok(new { password = dto.Password, hash = hash });
+            }
+        }
+    }
+
+    public class TestHashDto
+    {
+        public string Password { get; set; } = string.Empty;
     }
 }
