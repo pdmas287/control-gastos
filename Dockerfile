@@ -18,6 +18,9 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/publish .
 
+# Expose port 8080 for Railway
+EXPOSE 8080
+
 # Start the application
 # Port configuration is handled in Program.cs by reading PORT environment variable
 CMD ["dotnet", "ControlGastos.API.dll"]
