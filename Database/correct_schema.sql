@@ -151,7 +151,7 @@ INSERT INTO usuario (nombreusuario, email, passwordhash, nombrecompleto, activo,
 VALUES (
     'admin',
     'admin@example.com',
-    '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918',
+    'jGl25bVBBBW96Qi9Te4V37Fnqchz/Eu4qB9vKrUSqRg=',
     'Administrador del Sistema',
     TRUE,
     (SELECT rolid FROM rol WHERE nombre = 'Administrador')
