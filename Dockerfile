@@ -17,10 +17,8 @@ RUN dotnet publish -c Release -o /app/publish
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/publish .
-COPY Backend/ControlGastos.API/entrypoint.sh /app/entrypoint.sh
 
-# Make entrypoint executable
-RUN chmod +x /app/entrypoint.sh
+# Railway sets PORT env variable - expose it
+ENV ASPNETCORE_HTTP_PORTS=8080
 
-# Use entrypoint script to handle PORT variable
-ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["dotnet", "ControlGastos.API.dll"]
