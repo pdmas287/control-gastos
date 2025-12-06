@@ -23,6 +23,16 @@ namespace ControlGastos.API.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            // Configurar nombres de tablas para PostgreSQL
+            modelBuilder.Entity<Rol>().ToTable("rol");
+            modelBuilder.Entity<Usuario>().ToTable("usuario");
+            modelBuilder.Entity<TipoGasto>().ToTable("tipogasto");
+            modelBuilder.Entity<FondoMonetario>().ToTable("fondomonetario");
+            modelBuilder.Entity<Presupuesto>().ToTable("presupuesto");
+            modelBuilder.Entity<RegistroGastoEncabezado>().ToTable("registrogasto");
+            modelBuilder.Entity<RegistroGastoDetalle>().ToTable("registrogastodetalle");
+            modelBuilder.Entity<Deposito>().ToTable("deposito");
+
             // Configurar Rol
             modelBuilder.Entity<Rol>(entity =>
             {
