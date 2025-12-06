@@ -86,7 +86,8 @@ app.UseSwaggerUI(c =>
 
 app.UseCors("AllowAngular");
 
-app.UseHttpsRedirection();
+// Comentado para Railway - Railway maneja HTTPS en el edge, no en la app
+// app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
