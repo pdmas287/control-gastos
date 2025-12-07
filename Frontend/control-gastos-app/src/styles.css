@@ -169,3 +169,73 @@ table tbody tr:hover {
 .align-items-center {
   align-items: center;
 }
+
+/* ============================================ */
+/* Responsive Design - Mobile First */
+/* ============================================ */
+
+/* Asegurar que el viewport esté configurado correctamente */
+html {
+  font-size: 16px;
+}
+
+/* Container responsive */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 15px;
+}
+
+/* Ajustar tablas para móviles */
+@media (max-width: 768px) {
+  table {
+    font-size: 12px;
+  }
+
+  table th,
+  table td {
+    padding: 8px 4px;
+  }
+
+  /* Ocultar columnas menos importantes en móviles */
+  table th:not(:first-child):not(:last-child),
+  table td:not(:first-child):not(:last-child) {
+    display: none;
+  }
+
+  /* Botones más pequeños en móviles */
+  .btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  /* Cards con menos padding */
+  .card {
+    padding: 15px;
+  }
+
+  /* Form controls más grandes para touch */
+  .form-control {
+    padding: 12px;
+    font-size: 16px; /* Evita zoom en iOS */
+  }
+}
+
+/* Pantallas muy pequeñas */
+@media (max-width: 480px) {
+  .container {
+    padding: 10px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  h2 {
+    font-size: 20px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+}
