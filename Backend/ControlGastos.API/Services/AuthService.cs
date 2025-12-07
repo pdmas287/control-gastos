@@ -60,6 +60,9 @@ namespace ControlGastos.API.Services
             _context.Usuarios.Add(nuevoUsuario);
             await _context.SaveChangesAsync();
 
+            // Inicializar datos por defecto para el nuevo usuario
+            await InicializarDatosUsuarioAsync(nuevoUsuario.UsuarioId);
+
             // Recargar el usuario con su rol para generar el token
             var usuarioConRol = await _context.Usuarios
                 .Include(u => u.Rol)
@@ -174,6 +177,78 @@ namespace ControlGastos.API.Services
                 usuario.UltimoAcceso = DateTime.UtcNow;
                 await _context.SaveChangesAsync();
             }
+        }
+
+        private async Task InicializarDatosUsuarioAsync(int usuarioId)
+        {
+            var mesActual = DateTime.UtcNow.Month;
+            var anioActual = DateTime.UtcNow.Year;
+
+            // Insertar Tipos de Gasto por defecto
+            var tiposGasto = new List<TipoGasto>
+            {
+                new TipoGasto { Codigo = "TG-001", Descripcion = "Alimentación", Activo = true, FechaCreacion = DateTime.UtcNow, UsuarioId = usuarioId },
+                new TipoGasto { Codigo = "TG-002", Descripcion = "Transporte", Activo = true, FechaCreacion = DateTime.UtcNow, UsuarioId = usuarioId },
+                new TipoGasto { Codigo = "TG-003", Descripcion = "Servicios Públicos", Activo = true, FechaCreacion = DateTime.UtcNow, UsuarioId = usuarioId },
+                new TipoGasto { Codigo = "TG-004", Descripcion = "Entretenimiento", Activo = true, FechaCreacion = DateTime.UtcNow, UsuarioId = usuarioId },
+                new TipoGasto { Codigo = "TG-005", Descripcion = "Salud", Activo = true, FechaCreacion = DateTime.UtcNow, UsuarioId = usuarioId },
+                new TipoGasto { Codigo = "TG-006", Descripcion = "Educación", Activo = true, FechaCreacion = DateTime.UtcNow, UsuarioId = usuarioId },
+                new TipoGasto { Codigo = "TG-007", Descripcion = "Vivienda", Activo = true, FechaCreacion = DateTime.UtcNow, UsuarioId = usuarioId },
+                new TipoGasto { Codigo = "TG-008", Descripcion = "Vestimenta", Activo = true, FechaCreacion = DateTime.UtcNow, UsuarioId = usuarioId },
+                new TipoGasto { Codigo = "TG-009", Descripcion = "Tecnología", Activo = true, FechaCreacion = DateTime.UtcNow, UsuarioId = usuarioId },
+                new TipoGasto { Codigo = "TG-010", Descripcion = "Otros", Activo = true, FechaCreacion = DateTime.UtcNow, UsuarioId = usuarioId }
+            };
+
+            _context.TipoGastos.AddRange(tiposGasto);
+            await _context.SaveChangesAsync();
+
+            // Insertar Fondos Monetarios por defecto
+            var fondos = new List<FondoMonetario>
+            {
+                new FondoMonetario { Nombre = "Cuenta Corriente Principal", TipoFondo = "Cuenta Bancaria", Descripcion = "Cuenta bancaria para gastos generales", SaldoActual = 0, Activo = true, FechaCreacion = DateTime.UtcNow, UsuarioId = usuarioId },
+                new FondoMonetario { Nombre = "Cuenta de Ahorros", TipoFondo = "Cuenta Bancaria", Descripcion = "Cuenta de ahorros", SaldoActual = 0, Activo = true, FechaCreacion = DateTime.UtcNow, UsuarioId = usuarioId },
+                new FondoMonetario { Nombre = "Caja Chica", TipoFondo = "Caja Menuda", Descripcion = "Efectivo disponible", SaldoActual = 0, Activo = true, FechaCreacion = DateTime.UtcNow, UsuarioId = usuarioId },
+                new FondoMonetario { Nombre = "Efectivo Personal", TipoFondo = "Caja Menuda", Descripcion = "Efectivo en billetera", SaldoActual = 0, Activo = true, FechaCreacion = DateTime.UtcNow, UsuarioId = usuarioId }
+            };
+
+            _context.FondosMonetarios.AddRange(fondos);
+            await _context.SaveChangesAsync();
+
+            // Insertar Presupuestos para el mes actual
+            var presupuestos = new List<Presupuesto>();
+            var montosPresupuesto = new Dictionary<string, decimal>
+            {
+                { "TG-001", 1200000.00m },  // Alimentación
+                { "TG-002", 400000.00m },   // Transporte
+                { "TG-003", 500000.00m },   // Servicios Públicos
+                { "TG-004", 300000.00m },   // Entretenimiento
+                { "TG-005", 250000.00m },   // Salud
+                { "TG-006", 200000.00m },   // Educación
+                { "TG-007", 800000.00m },   // Vivienda
+                { "TG-008", 200000.00m },   // Vestimenta
+                { "TG-009", 150000.00m },   // Tecnología
+                { "TG-010", 100000.00m }    // Otros
+            };
+
+            foreach (var tipoGasto in tiposGasto)
+            {
+                var monto = montosPresupuesto.ContainsKey(tipoGasto.Codigo)
+                    ? montosPresupuesto[tipoGasto.Codigo]
+                    : 100000.00m;
+
+                presupuestos.Add(new Presupuesto
+                {
+                    TipoGastoId = tipoGasto.TipoGastoId,
+                    Mes = mesActual,
+                    Anio = anioActual,
+                    MontoPresupuestado = monto,
+                    FechaCreacion = DateTime.UtcNow,
+                    UsuarioId = usuarioId
+                });
+            }
+
+            _context.Presupuestos.AddRange(presupuestos);
+            await _context.SaveChangesAsync();
         }
 
         // Métodos privados para hash y verificación de password
