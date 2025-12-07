@@ -7,33 +7,25 @@ namespace ControlGastos.API.Models
     public class Rol
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("rolId")]
-
+        [Column("rolid")]
         public int RolId { get; set; }
 
         [Required]
-        [MaxLength(50)]
+        [StringLength(50)]
         [Column("nombre")]
-
         public string Nombre { get; set; } = string.Empty;
 
-        [MaxLength(200)]
+        [StringLength(200)]
         [Column("descripcion")]
-
         public string? Descripcion { get; set; }
 
         [Column("activo")]
-
-
         public bool Activo { get; set; } = true;
 
-        [Column("fechaCreacion")]
-
-
+        [Column("fechacreacion")]
         public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
 
-        // Relaciones
-        public virtual ICollection<Usuario>? Usuarios { get; set; }
+        // Navegación
+        public virtual ICollection<Usuario> Usuarios { get; set; } = new List<Usuario>();
     }
 }

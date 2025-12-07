@@ -7,68 +7,33 @@ namespace ControlGastos.API.Models
     public class Deposito
     {
         [Key]
-        [Column("depositoId")]
-
-        [Column("depositoId")]
-
-
+        [Column("depositoid")]
         public int DepositoId { get; set; }
 
         [Required]
-        [Column(TypeName = "date")]
         [Column("fecha")]
-
         public DateTime Fecha { get; set; }
 
         [Required]
-        [Column("fondoMonetarioId")]
-
-        [Column("fondoMonetarioId")]
-
-
+        [Column("fondomonetarioid")]
         public int FondoMonetarioId { get; set; }
 
         [Required]
-        [Column(TypeName = "decimal(18,2)")]
-        [Column("monto")]
-
-        [Column("monto")]
-
-
+        [Column("monto", TypeName = "decimal(18,2)")]
         public decimal Monto { get; set; }
 
-        [StringLength(300)]
+        [StringLength(500)]
         [Column("descripcion")]
-
-        [Column("descripcion")]
-
-
         public string? Descripcion { get; set; }
 
-        [Column("fechaCreacion")]
-
-
-        [Column("fechaCreacion")]
-
-
-
+        [Column("fechacreacion")]
         public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
 
-        [Column("fechaModificacion")]
-
-
-        [Column("fechaModificacion")]
-
-
-
+        [Column("fechamodificacion")]
         public DateTime? FechaModificacion { get; set; }
 
         // Relación con Usuario
-        [Column("usuarioId")]
-
-        [Column("usuarioId")]
-
-
+        [Column("usuarioid")]
         public int? UsuarioId { get; set; }
 
         [ForeignKey("UsuarioId")]

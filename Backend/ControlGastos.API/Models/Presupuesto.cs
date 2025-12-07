@@ -7,45 +7,34 @@ namespace ControlGastos.API.Models
     public class Presupuesto
     {
         [Key]
-        [Column("presupuestoId")]
-
+        [Column("presupuestoid")]
         public int PresupuestoId { get; set; }
 
         [Required]
-        [Column("tipoGastoId")]
-
+        [Column("tipogastoid")]
         public int TipoGastoId { get; set; }
 
         [Required]
         [Range(1, 12)]
         [Column("mes")]
-
         public int Mes { get; set; }
 
         [Required]
         [Column("anio")]
-
         public int Anio { get; set; }
 
         [Required]
-        [Column(TypeName = "decimal(18,2)")]
-        [Column("montoPresupuestado")]
-
+        [Column("montopresupuestado", TypeName = "decimal(18,2)")]
         public decimal MontoPresupuestado { get; set; }
 
-        [Column("fechaCreacion")]
-
-
+        [Column("fechacreacion")]
         public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
 
-        [Column("fechaModificacion")]
-
-
+        [Column("fechamodificacion")]
         public DateTime? FechaModificacion { get; set; }
 
         // Relación con Usuario
-        [Column("usuarioId")]
-
+        [Column("usuarioid")]
         public int? UsuarioId { get; set; }
 
         [ForeignKey("UsuarioId")]

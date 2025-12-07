@@ -7,29 +7,23 @@ namespace ControlGastos.API.Models
     public class RegistroGastoDetalle
     {
         [Key]
-        [Column("registroGastoDetalleId")]
-
+        [Column("registrogastodetalleid")]
         public int RegistroGastoDetalleId { get; set; }
 
         [Required]
-        [Column("registroGastoId")]
-
+        [Column("registrogastoid")]
         public int RegistroGastoId { get; set; }
 
         [Required]
-        [Column("tipoGastoId")]
-
+        [Column("tipogastoid")]
         public int TipoGastoId { get; set; }
 
         [Required]
-        [Column(TypeName = "decimal(18,2)")]
-        [Column("monto")]
-
+        [Column("monto", TypeName = "decimal(18,2)")]
         public decimal Monto { get; set; }
 
-        [StringLength(300)]
+        [StringLength(500)]
         [Column("descripcion")]
-
         public string? Descripcion { get; set; }
 
         // Navegación

@@ -7,56 +7,40 @@ namespace ControlGastos.API.Models
     public class RegistroGastoEncabezado
     {
         [Key]
-        [Column("registroGastoId")]
-
+        [Column("registrogastoid")]
         public int RegistroGastoId { get; set; }
 
         [Required]
-        [Column(TypeName = "date")]
         [Column("fecha")]
-
         public DateTime Fecha { get; set; }
 
         [Required]
-        [Column("fondoMonetarioId")]
-
+        [Column("fondomonetarioid")]
         public int FondoMonetarioId { get; set; }
 
-        [Required]
         [StringLength(200)]
-        [Column("nombreComercio")]
+        [Column("nombrecomercio")]
+        public string? NombreComercio { get; set; }
 
-        public string NombreComercio { get; set; } = string.Empty;
-
-        [Required]
         [StringLength(50)]
-        [Column("tipoDocumento")]
-
-        public string TipoDocumento { get; set; } = string.Empty; // "Comprobante", "Factura", "Otro"
+        [Column("tipodocumento")]
+        public string? TipoDocumento { get; set; }
 
         [StringLength(500)]
         [Column("observaciones")]
-
         public string? Observaciones { get; set; }
 
-        [Column(TypeName = "decimal(18,2)")]
-        [Column("montoTotal")]
+        [Column("montototal", TypeName = "decimal(18,2)")]
+        public decimal MontoTotal { get; set; }
 
-        public decimal MontoTotal { get; set; } = 0;
-
-        [Column("fechaCreacion")]
-
-
+        [Column("fechacreacion")]
         public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
 
-        [Column("fechaModificacion")]
-
-
+        [Column("fechamodificacion")]
         public DateTime? FechaModificacion { get; set; }
 
         // Relación con Usuario
-        [Column("usuarioId")]
-
+        [Column("usuarioid")]
         public int? UsuarioId { get; set; }
 
         [ForeignKey("UsuarioId")]

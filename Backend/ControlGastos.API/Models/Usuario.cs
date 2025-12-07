@@ -7,69 +7,55 @@ namespace ControlGastos.API.Models
     public class Usuario
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column("usuarioId")]
-
+        [Column("usuarioid")]
         public int UsuarioId { get; set; }
 
         [Required]
-        [MaxLength(50)]
-        [Column("nombreUsuario")]
-
+        [StringLength(50)]
+        [Column("nombreusuario")]
         public string NombreUsuario { get; set; } = string.Empty;
 
         [Required]
-        [MaxLength(100)]
+        [StringLength(100)]
         [EmailAddress]
         [Column("email")]
-
         public string Email { get; set; } = string.Empty;
 
         [Required]
-        [MaxLength(500)]
-        [Column("passwordHash")]
-
+        [StringLength(500)]
+        [Column("passwordhash")]
         public string PasswordHash { get; set; } = string.Empty;
 
         [Required]
-        [MaxLength(200)]
-        [Column("nombreCompleto")]
-
+        [StringLength(100)]
+        [Column("nombrecompleto")]
         public string NombreCompleto { get; set; } = string.Empty;
 
         [Column("activo")]
-
-
         public bool Activo { get; set; } = true;
 
-        [Column("fechaCreacion")]
-
-
+        [Column("fechacreacion")]
         public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
 
-        [Column("fechaModificacion")]
-
-
+        [Column("fechamodificacion")]
         public DateTime? FechaModificacion { get; set; }
 
-        [Column("ultimoAcceso")]
-
-
+        [Column("ultimoacceso")]
         public DateTime? UltimoAcceso { get; set; }
 
+        // Relación con Rol
         [Required]
-        [Column("rolId")]
-
+        [Column("rolid")]
         public int RolId { get; set; }
 
-        // Relaciones
         [ForeignKey("RolId")]
         public virtual Rol? Rol { get; set; }
 
-        public virtual ICollection<TipoGasto>? TipoGastos { get; set; }
-        public virtual ICollection<FondoMonetario>? FondosMonetarios { get; set; }
-        public virtual ICollection<Presupuesto>? Presupuestos { get; set; }
-        public virtual ICollection<RegistroGastoEncabezado>? RegistrosGasto { get; set; }
-        public virtual ICollection<Deposito>? Depositos { get; set; }
+        // Navegación
+        public virtual ICollection<TipoGasto> TiposGasto { get; set; } = new List<TipoGasto>();
+        public virtual ICollection<FondoMonetario> FondosMonetarios { get; set; } = new List<FondoMonetario>();
+        public virtual ICollection<Presupuesto> Presupuestos { get; set; } = new List<Presupuesto>();
+        public virtual ICollection<RegistroGastoEncabezado> RegistrosGasto { get; set; } = new List<RegistroGastoEncabezado>();
+        public virtual ICollection<Deposito> Depositos { get; set; } = new List<Deposito>();
     }
 }

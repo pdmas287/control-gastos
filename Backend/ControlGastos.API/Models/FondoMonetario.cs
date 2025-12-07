@@ -7,50 +7,37 @@ namespace ControlGastos.API.Models
     public class FondoMonetario
     {
         [Key]
-        [Column("fondoMonetarioId")]
-
+        [Column("fondomonetarioid")]
         public int FondoMonetarioId { get; set; }
 
         [Required]
-        [StringLength(200)]
+        [StringLength(100)]
         [Column("nombre")]
-
         public string Nombre { get; set; } = string.Empty;
 
         [Required]
         [StringLength(50)]
-        [Column("tipoFondo")]
+        [Column("tipofondo")]
+        public string TipoFondo { get; set; } = string.Empty;
 
-        public string TipoFondo { get; set; } = string.Empty; // "Cuenta Bancaria" o "Caja Menuda"
-
-        [StringLength(500)]
+        [StringLength(200)]
         [Column("descripcion")]
-
         public string? Descripcion { get; set; }
 
-        [Column(TypeName = "decimal(18,2)")]
-        [Column("saldoActual")]
-
-        public decimal SaldoActual { get; set; } = 0;
+        [Column("saldoactual", TypeName = "decimal(18,2)")]
+        public decimal SaldoActual { get; set; }
 
         [Column("activo")]
-
-
         public bool Activo { get; set; } = true;
 
-        [Column("fechaCreacion")]
-
-
+        [Column("fechacreacion")]
         public DateTime FechaCreacion { get; set; } = DateTime.UtcNow;
 
-        [Column("fechaModificacion")]
-
-
+        [Column("fechamodificacion")]
         public DateTime? FechaModificacion { get; set; }
 
         // Relación con Usuario
-        [Column("usuarioId")]
-
+        [Column("usuarioid")]
         public int? UsuarioId { get; set; }
 
         [ForeignKey("UsuarioId")]
