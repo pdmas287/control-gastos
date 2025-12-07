@@ -52,7 +52,7 @@ namespace ControlGastos.API.Models
         public virtual Rol? Rol { get; set; }
 
         // Navegación
-        public virtual ICollection<TipoGasto> TiposGasto { get; set; } = new List<TipoGasto>();
+        public virtual ICollection<TipoGasto> TipoGastos { get; set; } = new List<TipoGasto>();
         public virtual ICollection<FondoMonetario> FondosMonetarios { get; set; } = new List<FondoMonetario>();
         public virtual ICollection<Presupuesto> Presupuestos { get; set; } = new List<Presupuesto>();
         public virtual ICollection<RegistroGastoEncabezado> RegistrosGasto { get; set; } = new List<RegistroGastoEncabezado>();
