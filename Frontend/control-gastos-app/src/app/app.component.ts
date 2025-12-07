@@ -26,30 +26,30 @@ import { AuthService } from './services/auth.service';
               <li class="nav-item">
                 <a routerLink="/home" routerLinkActive="active">Inicio</a>
               </li>
-              <li class="nav-item dropdown">
-                <span>Mantenimientos</span>
+              <li class="nav-item dropdown" [class.active]="isDropdownActive('mantenimientos')">
+                <span (click)="toggleDropdown('mantenimientos')">Mantenimientos</span>
                 <ul class="dropdown-menu">
                   <li><a routerLink="/tipos-gasto" routerLinkActive="active">Tipos de Gasto</a></li>
                   <li><a routerLink="/fondos-monetarios" routerLinkActive="active">Fondos Monetarios</a></li>
                 </ul>
               </li>
-              <li class="nav-item dropdown">
-                <span>Movimientos</span>
+              <li class="nav-item dropdown" [class.active]="isDropdownActive('movimientos')">
+                <span (click)="toggleDropdown('movimientos')">Movimientos</span>
                 <ul class="dropdown-menu">
                   <li><a routerLink="/presupuestos" routerLinkActive="active">Presupuestos</a></li>
                   <li><a routerLink="/registro-gastos" routerLinkActive="active">Registro de Gastos</a></li>
                   <li><a routerLink="/depositos" routerLinkActive="active">Depósitos</a></li>
                 </ul>
               </li>
-              <li class="nav-item dropdown">
-                <span>Consultas y Reportes</span>
+              <li class="nav-item dropdown" [class.active]="isDropdownActive('consultas')">
+                <span (click)="toggleDropdown('consultas')">Consultas y Reportes</span>
                 <ul class="dropdown-menu">
                   <li><a routerLink="/consulta-movimientos" routerLinkActive="active">Consulta de Movimientos</a></li>
                   <li><a routerLink="/grafico-comparativo" routerLinkActive="active">Gráfico Comparativo</a></li>
                 </ul>
               </li>
-              <li class="nav-item dropdown" *ngIf="isAdmin">
-                <span class="admin-menu-title">⚙️ Administración</span>
+              <li class="nav-item dropdown" [class.active]="isDropdownActive('admin')" *ngIf="isAdmin">
+                <span class="admin-menu-title" (click)="toggleDropdown('admin')">⚙️ Administración</span>
                 <ul class="dropdown-menu">
                   <li><a routerLink="/admin/usuarios" routerLinkActive="active">Gestión de Usuarios</a></li>
                   <li><a routerLink="/admin/reportes-globales" routerLinkActive="active">Reportes Globales</a></li>
@@ -324,6 +324,7 @@ export class AppComponent {
   userName = '';
   isAdminRoute = false;
   mobileMenuOpen = false;
+  activeDropdown: string | null = null;
 
   constructor(
     public authService: AuthService,
@@ -340,11 +341,27 @@ export class AppComponent {
     this.router.events.subscribe(() => {
       this.isAdminRoute = this.router.url.startsWith('/admin');
       this.mobileMenuOpen = false; // Cerrar menú al cambiar de ruta
+      this.activeDropdown = null; // Cerrar dropdowns al cambiar de ruta
     });
   }
 
   toggleMobileMenu(): void {
     this.mobileMenuOpen = !this.mobileMenuOpen;
+    if (!this.mobileMenuOpen) {
+      this.activeDropdown = null; // Cerrar dropdowns al cerrar menú
+    }
+  }
+
+  toggleDropdown(dropdownName: string): void {
+    if (this.activeDropdown === dropdownName) {
+      this.activeDropdown = null;
+    } else {
+      this.activeDropdown = dropdownName;
+    }
+  }
+
+  isDropdownActive(dropdownName: string): boolean {
+    return this.activeDropdown === dropdownName;
   }
 
   onLogout(): void {
