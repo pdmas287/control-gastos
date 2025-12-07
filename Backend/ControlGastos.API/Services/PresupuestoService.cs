@@ -66,6 +66,28 @@ namespace ControlGastos.API.Services
             };
         }
 
+        public async Task<IEnumerable<PresupuestoDto>> GetByUsuariosAsync(List<int> usuariosIds)
+        {
+            return await _context.Presupuestos
+                .Include(p => p.TipoGasto)
+                .Include(p => p.Usuario)
+                .Where(p => usuariosIds.Contains(p.UsuarioId ?? 0))
+                .Select(p => new PresupuestoDto
+                {
+                    PresupuestoId = p.PresupuestoId,
+                    TipoGastoId = p.TipoGastoId,
+                    TipoGastoDescripcion = p.TipoGasto!.Descripcion,
+                    Mes = p.Mes,
+                    Anio = p.Anio,
+                    MontoPresupuestado = p.MontoPresupuestado,
+                    UsuarioId = p.UsuarioId ?? 0,
+                    NombreUsuario = p.Usuario != null ? p.Usuario.NombreCompleto : null
+                })
+                .OrderByDescending(p => p.Anio)
+                .ThenByDescending(p => p.Mes)
+                .ToListAsync();
+        }
+
         public async Task<PresupuestosPorMesDto> GetPresupuestosPorMesAsync(int mes, int anio, int usuarioId, bool esAdmin)
         {
             var query = _context.Presupuestos
@@ -86,6 +108,31 @@ namespace ControlGastos.API.Services
                     TipoGastoId = p.TipoGastoId,
                     TipoGastoDescripcion = p.TipoGasto!.Descripcion,
                     MontoPresupuestado = p.MontoPresupuestado
+                })
+                .ToListAsync();
+
+            return new PresupuestosPorMesDto
+            {
+                Mes = mes,
+                Anio = anio,
+                Items = presupuestos
+            };
+        }
+
+        public async Task<PresupuestosPorMesDto> GetPresupuestosPorMesYUsuariosAsync(int mes, int anio, List<int> usuariosIds)
+        {
+            var presupuestos = await _context.Presupuestos
+                .Include(p => p.TipoGasto)
+                .Where(p => p.Mes == mes && p.Anio == anio)
+                .Where(p => p.TipoGasto!.Activo)
+                .Where(p => usuariosIds.Contains(p.UsuarioId ?? 0))
+                .GroupBy(p => new { p.TipoGastoId, p.TipoGasto!.Descripcion })
+                .Select(g => new PresupuestoItemDto
+                {
+                    PresupuestoId = 0, // Consolidado, no hay un único ID
+                    TipoGastoId = g.Key.TipoGastoId,
+                    TipoGastoDescripcion = g.Key.Descripcion,
+                    MontoPresupuestado = g.Sum(p => p.MontoPresupuestado)
                 })
                 .ToListAsync();
 

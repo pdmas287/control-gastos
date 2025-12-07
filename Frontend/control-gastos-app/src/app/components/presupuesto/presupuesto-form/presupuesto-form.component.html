@@ -1,6 +1,9 @@
 <div class="card">
   <h2>Presupuesto Mensual por Tipo de Gasto</h2>
 
+  <!-- Filtro de usuarios para admin -->
+  <app-filtro-usuario-admin (filtroChange)="onFiltroChange($event)"></app-filtro-usuario-admin>
+
   <div class="filters mb-3">
     <div class="form-row">
       <div class="form-group">

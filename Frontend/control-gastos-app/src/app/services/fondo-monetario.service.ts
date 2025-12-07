@@ -12,8 +12,15 @@ export class FondoMonetarioService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(): Observable<FondoMonetario[]> {
-    return this.http.get<FondoMonetario[]>(this.apiUrl);
+  getAll(usuariosIds?: number[]): Observable<FondoMonetario[]> {
+    let url = this.apiUrl;
+
+    if (usuariosIds && usuariosIds.length > 0) {
+      const params = usuariosIds.map(id => `usuariosIds=${id}`).join('&');
+      url = `${this.apiUrl}?${params}`;
+    }
+
+    return this.http.get<FondoMonetario[]>(url);
   }
 
   getById(id: number): Observable<FondoMonetario> {

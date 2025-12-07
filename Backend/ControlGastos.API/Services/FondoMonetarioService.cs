@@ -16,7 +16,7 @@ namespace ControlGastos.API.Services
 
         public async Task<IEnumerable<FondoMonetarioDto>> GetAllAsync(int usuarioId, bool esAdmin)
         {
-            var query = _context.FondosMonetarios.Where(f => f.Activo);
+            var query = _context.FondosMonetarios.Include(f => f.Usuario).Where(f => f.Activo);
 
             // Si NO es admin, filtrar solo por su usuarioId
             if (!esAdmin)
@@ -33,7 +33,28 @@ namespace ControlGastos.API.Services
                     TipoFondo = f.TipoFondo,
                     Descripcion = f.Descripcion,
                     SaldoActual = f.SaldoActual,
-                    Activo = f.Activo
+                    Activo = f.Activo,
+                    UsuarioId = f.UsuarioId ?? 0,
+                    NombreUsuario = f.Usuario != null ? f.Usuario.NombreCompleto : null
+                })
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<FondoMonetarioDto>> GetByUsuariosAsync(List<int> usuariosIds)
+        {
+            return await _context.FondosMonetarios
+                .Include(f => f.Usuario)
+                .Where(f => f.Activo && usuariosIds.Contains(f.UsuarioId ?? 0))
+                .Select(f => new FondoMonetarioDto
+                {
+                    FondoMonetarioId = f.FondoMonetarioId,
+                    Nombre = f.Nombre,
+                    TipoFondo = f.TipoFondo,
+                    Descripcion = f.Descripcion,
+                    SaldoActual = f.SaldoActual,
+                    Activo = f.Activo,
+                    UsuarioId = f.UsuarioId ?? 0,
+                    NombreUsuario = f.Usuario != null ? f.Usuario.NombreCompleto : null
                 })
                 .ToListAsync();
         }

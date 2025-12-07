@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReporteService } from '../../../services/reporte.service';
+import { AuthService } from '../../../services/auth.service';
 import { Movimiento } from '../../../models/reporte.model';
+import { FiltroUsuarioAdminComponent } from '../../shared/filtro-usuario-admin.component';
 
 @Component({
   selector: 'app-consulta-movimientos',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FiltroUsuarioAdminComponent],
   templateUrl: './consulta-movimientos.component.html',
   styleUrls: ['./consulta-movimientos.component.css']
 })
@@ -18,20 +20,34 @@ export class ConsultaMovimientosComponent implements OnInit {
   movimientosFiltrados: Movimiento[] = [];
   cargando: boolean = false;
   consultado: boolean = false;
+  isAdmin: boolean = false;
+  usuariosFiltrados: number[] = [];
 
   // Filtros
   filtroTipo: string = 'Todos';
   tiposMovimiento: string[] = ['Todos', 'Gasto', 'Depósito'];
 
-  constructor(private reporteService: ReporteService) { }
+  constructor(
+    private reporteService: ReporteService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
+    this.isAdmin = this.authService.isAdmin();
+
     // Configurar fechas por defecto: primer día del mes actual hasta hoy
     const hoy = new Date();
     const primerDia = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
 
     this.fechaInicio = this.formatDate(primerDia);
     this.fechaFin = this.formatDate(hoy);
+  }
+
+  onFiltroChange(usuariosIds: number[]): void {
+    this.usuariosFiltrados = usuariosIds;
+    if (this.consultado) {
+      this.consultarMovimientos();
+    }
   }
 
   formatDate(date: Date): string {
@@ -53,8 +69,9 @@ export class ConsultaMovimientosComponent implements OnInit {
     }
 
     this.cargando = true;
+    const filtro = this.usuariosFiltrados.length > 0 ? this.usuariosFiltrados : undefined;
 
-    this.reporteService.getMovimientos(this.fechaInicio, this.fechaFin).subscribe({
+    this.reporteService.getMovimientos(this.fechaInicio, this.fechaFin, filtro).subscribe({
       next: (data) => {
         this.movimientos = data;
         this.aplicarFiltro();

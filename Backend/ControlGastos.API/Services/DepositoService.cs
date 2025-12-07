@@ -26,6 +26,7 @@ namespace ControlGastos.API.Services
             // Si ES admin, obtener TODOS los depósitos de todos los usuarios
 
             return await query
+                .Include(d => d.Usuario)
                 .OrderByDescending(d => d.Fecha)
                 .Select(d => new DepositoDto
                 {
@@ -34,7 +35,30 @@ namespace ControlGastos.API.Services
                     FondoMonetarioId = d.FondoMonetarioId,
                     FondoMonetarioNombre = d.FondoMonetario!.Nombre,
                     Monto = d.Monto,
-                    Descripcion = d.Descripcion
+                    Descripcion = d.Descripcion,
+                    UsuarioId = d.UsuarioId ?? 0,
+                    NombreUsuario = d.Usuario != null ? d.Usuario.NombreCompleto : null
+                })
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<DepositoDto>> GetByUsuariosAsync(List<int> usuariosIds)
+        {
+            return await _context.Depositos
+                .Include(d => d.FondoMonetario)
+                .Include(d => d.Usuario)
+                .Where(d => usuariosIds.Contains(d.UsuarioId ?? 0))
+                .OrderByDescending(d => d.Fecha)
+                .Select(d => new DepositoDto
+                {
+                    DepositoId = d.DepositoId,
+                    Fecha = d.Fecha,
+                    FondoMonetarioId = d.FondoMonetarioId,
+                    FondoMonetarioNombre = d.FondoMonetario!.Nombre,
+                    Monto = d.Monto,
+                    Descripcion = d.Descripcion,
+                    UsuarioId = d.UsuarioId ?? 0,
+                    NombreUsuario = d.Usuario != null ? d.Usuario.NombreCompleto : null
                 })
                 .ToListAsync();
         }

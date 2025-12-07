@@ -21,7 +21,8 @@ namespace ControlGastos.API.Controllers
         [HttpGet("movimientos")]
         public async Task<ActionResult<IEnumerable<MovimientoDto>>> GetMovimientos(
             [FromQuery] DateTime fechaInicio,
-            [FromQuery] DateTime fechaFin)
+            [FromQuery] DateTime fechaFin,
+            [FromQuery] List<int>? usuariosIds = null)
         {
             try
             {
@@ -30,8 +31,15 @@ namespace ControlGastos.API.Controllers
 
                 var usuarioId = User.GetUsuarioId();
                 var esAdmin = User.IsAdmin();
-                var movimientos = await _service.GetMovimientosAsync(fechaInicio, fechaFin, usuarioId, esAdmin);
-                return Ok(movimientos);
+
+                if (esAdmin && usuariosIds != null && usuariosIds.Count > 0)
+                {
+                    var movimientos = await _service.GetMovimientosByUsuariosAsync(fechaInicio, fechaFin, usuariosIds);
+                    return Ok(movimientos);
+                }
+
+                var movimientosNormal = await _service.GetMovimientosAsync(fechaInicio, fechaFin, usuarioId, esAdmin);
+                return Ok(movimientosNormal);
             }
             catch (UnauthorizedAccessException)
             {
@@ -42,7 +50,8 @@ namespace ControlGastos.API.Controllers
         [HttpGet("comparativo-presupuesto")]
         public async Task<ActionResult<IEnumerable<ComparativoPresupuestoDto>>> GetComparativoPresupuesto(
             [FromQuery] DateTime fechaInicio,
-            [FromQuery] DateTime fechaFin)
+            [FromQuery] DateTime fechaFin,
+            [FromQuery] List<int>? usuariosIds = null)
         {
             try
             {
@@ -51,8 +60,15 @@ namespace ControlGastos.API.Controllers
 
                 var usuarioId = User.GetUsuarioId();
                 var esAdmin = User.IsAdmin();
-                var comparativo = await _service.GetComparativoPresupuestoAsync(fechaInicio, fechaFin, usuarioId, esAdmin);
-                return Ok(comparativo);
+
+                if (esAdmin && usuariosIds != null && usuariosIds.Count > 0)
+                {
+                    var comparativo = await _service.GetComparativoPresupuestoByUsuariosAsync(fechaInicio, fechaFin, usuariosIds);
+                    return Ok(comparativo);
+                }
+
+                var comparativoNormal = await _service.GetComparativoPresupuestoAsync(fechaInicio, fechaFin, usuarioId, esAdmin);
+                return Ok(comparativoNormal);
             }
             catch (UnauthorizedAccessException)
             {

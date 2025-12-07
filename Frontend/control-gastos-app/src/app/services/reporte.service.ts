@@ -12,15 +12,25 @@ export class ReporteService {
 
   constructor(private http: HttpClient) { }
 
-  getMovimientos(fechaInicio: string, fechaFin: string): Observable<Movimiento[]> {
-    return this.http.get<Movimiento[]>(
-      `${this.apiUrl}/movimientos?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`
-    );
+  getMovimientos(fechaInicio: string, fechaFin: string, usuariosIds?: number[]): Observable<Movimiento[]> {
+    let url = `${this.apiUrl}/movimientos?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`;
+
+    if (usuariosIds && usuariosIds.length > 0) {
+      const params = usuariosIds.map(id => `usuariosIds=${id}`).join('&');
+      url = `${url}&${params}`;
+    }
+
+    return this.http.get<Movimiento[]>(url);
   }
 
-  getComparativoPresupuesto(fechaInicio: string, fechaFin: string): Observable<ComparativoPresupuesto[]> {
-    return this.http.get<ComparativoPresupuesto[]>(
-      `${this.apiUrl}/comparativo-presupuesto?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`
-    );
+  getComparativoPresupuesto(fechaInicio: string, fechaFin: string, usuariosIds?: number[]): Observable<ComparativoPresupuesto[]> {
+    let url = `${this.apiUrl}/comparativo-presupuesto?fechaInicio=${fechaInicio}&fechaFin=${fechaFin}`;
+
+    if (usuariosIds && usuariosIds.length > 0) {
+      const params = usuariosIds.map(id => `usuariosIds=${id}`).join('&');
+      url = `${url}&${params}`;
+    }
+
+    return this.http.get<ComparativoPresupuesto[]>(url);
   }
 }

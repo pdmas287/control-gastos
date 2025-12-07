@@ -19,14 +19,21 @@ namespace ControlGastos.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PresupuestoDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<PresupuestoDto>>> GetAll([FromQuery] List<int>? usuariosIds = null)
         {
             try
             {
                 var usuarioId = User.GetUsuarioId();
                 var esAdmin = User.IsAdmin();
-                var presupuestos = await _service.GetAllAsync(usuarioId, esAdmin);
-                return Ok(presupuestos);
+
+                if (esAdmin && usuariosIds != null && usuariosIds.Count > 0)
+                {
+                    var presupuestos = await _service.GetByUsuariosAsync(usuariosIds);
+                    return Ok(presupuestos);
+                }
+
+                var presupuestosNormal = await _service.GetAllAsync(usuarioId, esAdmin);
+                return Ok(presupuestosNormal);
             }
             catch (UnauthorizedAccessException)
             {
@@ -54,7 +61,7 @@ namespace ControlGastos.API.Controllers
         }
 
         [HttpGet("mes/{mes}/anio/{anio}")]
-        public async Task<ActionResult<PresupuestosPorMesDto>> GetPresupuestosPorMes(int mes, int anio)
+        public async Task<ActionResult<PresupuestosPorMesDto>> GetPresupuestosPorMes(int mes, int anio, [FromQuery] List<int>? usuariosIds = null)
         {
             try
             {
@@ -66,8 +73,15 @@ namespace ControlGastos.API.Controllers
 
                 var usuarioId = User.GetUsuarioId();
                 var esAdmin = User.IsAdmin();
-                var presupuestos = await _service.GetPresupuestosPorMesAsync(mes, anio, usuarioId, esAdmin);
-                return Ok(presupuestos);
+
+                if (esAdmin && usuariosIds != null && usuariosIds.Count > 0)
+                {
+                    var presupuestos = await _service.GetPresupuestosPorMesYUsuariosAsync(mes, anio, usuariosIds);
+                    return Ok(presupuestos);
+                }
+
+                var presupuestosNormal = await _service.GetPresupuestosPorMesAsync(mes, anio, usuarioId, esAdmin);
+                return Ok(presupuestosNormal);
             }
             catch (UnauthorizedAccessException)
             {

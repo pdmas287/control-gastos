@@ -1,6 +1,9 @@
 <div class="card">
   <h2>Gráfico Comparativo: Presupuesto vs Ejecución</h2>
 
+  <!-- Filtro de usuarios para admin -->
+  <app-filtro-usuario-admin (filtroChange)="onFiltroChange($event)"></app-filtro-usuario-admin>
+
   <!-- Filtros -->
   <div class="filtros-grafico">
     <div class="form-row">

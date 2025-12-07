@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DepositoService } from '../../../services/deposito.service';
 import { FondoMonetarioService } from '../../../services/fondo-monetario.service';
+import { AuthService } from '../../../services/auth.service';
 import { Deposito, DepositoCreate } from '../../../models/deposito.model';
 import { FondoMonetario } from '../../../models/fondo-monetario.model';
+import { FiltroUsuarioAdminComponent } from '../../shared/filtro-usuario-admin.component';
 
 @Component({
   selector: 'app-deposito-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FiltroUsuarioAdminComponent],
   templateUrl: './deposito-form.component.html',
   styleUrls: ['./deposito-form.component.css']
 })
@@ -17,6 +19,8 @@ export class DepositoFormComponent implements OnInit {
   depositos: Deposito[] = [];
   fondosMonetarios: FondoMonetario[] = [];
   showForm: boolean = false;
+  isAdmin: boolean = false;
+  usuariosFiltrados: number[] = [];
 
   formData: DepositoCreate = {
     fecha: new Date(),
@@ -27,16 +31,26 @@ export class DepositoFormComponent implements OnInit {
 
   constructor(
     private depositoService: DepositoService,
-    private fondoMonetarioService: FondoMonetarioService
+    private fondoMonetarioService: FondoMonetarioService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
+    this.isAdmin = this.authService.isAdmin();
+    this.loadDepositos();
+    this.loadFondosMonetarios();
+  }
+
+  onFiltroChange(usuariosIds: number[]): void {
+    this.usuariosFiltrados = usuariosIds;
     this.loadDepositos();
     this.loadFondosMonetarios();
   }
 
   loadDepositos(): void {
-    this.depositoService.getAll().subscribe({
+    const filtro = this.usuariosFiltrados.length > 0 ? this.usuariosFiltrados : undefined;
+
+    this.depositoService.getAll(filtro).subscribe({
       next: (data) => {
         this.depositos = data;
       },
@@ -48,7 +62,9 @@ export class DepositoFormComponent implements OnInit {
   }
 
   loadFondosMonetarios(): void {
-    this.fondoMonetarioService.getAll().subscribe({
+    const filtro = this.usuariosFiltrados.length > 0 ? this.usuariosFiltrados : undefined;
+
+    this.fondoMonetarioService.getAll(filtro).subscribe({
       next: (data) => {
         this.fondosMonetarios = data;
       },

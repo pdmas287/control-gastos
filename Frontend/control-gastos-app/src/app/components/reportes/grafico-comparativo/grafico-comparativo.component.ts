@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReporteService } from '../../../services/reporte.service';
+import { AuthService } from '../../../services/auth.service';
 import { ComparativoPresupuesto } from '../../../models/reporte.model';
+import { FiltroUsuarioAdminComponent } from '../../shared/filtro-usuario-admin.component';
 
 @Component({
   selector: 'app-grafico-comparativo',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FiltroUsuarioAdminComponent],
   templateUrl: './grafico-comparativo.component.html',
   styleUrls: ['./grafico-comparativo.component.css']
 })
@@ -17,19 +19,33 @@ export class GraficoComparativoComponent implements OnInit {
   datos: ComparativoPresupuesto[] = [];
   cargando: boolean = false;
   consultado: boolean = false;
+  isAdmin: boolean = false;
+  usuariosFiltrados: number[] = [];
 
   // Configuración del gráfico (simulación básica sin Chart.js para evitar dependencias)
   mostrarGrafico: boolean = false;
 
-  constructor(private reporteService: ReporteService) { }
+  constructor(
+    private reporteService: ReporteService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
+    this.isAdmin = this.authService.isAdmin();
+
     // Configurar fechas por defecto: primer día del mes actual hasta hoy
     const hoy = new Date();
     const primerDia = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
 
     this.fechaInicio = this.formatDate(primerDia);
     this.fechaFin = this.formatDate(hoy);
+  }
+
+  onFiltroChange(usuariosIds: number[]): void {
+    this.usuariosFiltrados = usuariosIds;
+    if (this.consultado) {
+      this.generarGrafico();
+    }
   }
 
   formatDate(date: Date): string {
@@ -51,8 +67,9 @@ export class GraficoComparativoComponent implements OnInit {
     }
 
     this.cargando = true;
+    const filtro = this.usuariosFiltrados.length > 0 ? this.usuariosFiltrados : undefined;
 
-    this.reporteService.getComparativoPresupuesto(this.fechaInicio, this.fechaFin).subscribe({
+    this.reporteService.getComparativoPresupuesto(this.fechaInicio, this.fechaFin, filtro).subscribe({
       next: (data) => {
         this.datos = data;
         this.consultado = true;

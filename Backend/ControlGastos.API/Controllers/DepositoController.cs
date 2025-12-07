@@ -19,14 +19,21 @@ namespace ControlGastos.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DepositoDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<DepositoDto>>> GetAll([FromQuery] List<int>? usuariosIds = null)
         {
             try
             {
                 var usuarioId = User.GetUsuarioId();
                 var esAdmin = User.IsAdmin();
-                var depositos = await _service.GetAllAsync(usuarioId, esAdmin);
-                return Ok(depositos);
+
+                if (esAdmin && usuariosIds != null && usuariosIds.Count > 0)
+                {
+                    var depositos = await _service.GetByUsuariosAsync(usuariosIds);
+                    return Ok(depositos);
+                }
+
+                var depositosNormal = await _service.GetAllAsync(usuarioId, esAdmin);
+                return Ok(depositosNormal);
             }
             catch (UnauthorizedAccessException)
             {

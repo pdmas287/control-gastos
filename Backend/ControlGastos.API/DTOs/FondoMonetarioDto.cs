@@ -8,6 +8,8 @@ namespace ControlGastos.API.DTOs
         public string? Descripcion { get; set; }
         public decimal SaldoActual { get; set; }
         public bool Activo { get; set; }
+        public int UsuarioId { get; set; }
+        public string? NombreUsuario { get; set; }
     }
 
     public class FondoMonetarioCreateDto

@@ -40,7 +40,8 @@ export class PresupuestoFormComponent implements OnInit {
 
   constructor(
     private presupuestoService: PresupuestoService,
-    private tipoGastoService: TipoGastoService
+    private tipoGastoService: TipoGastoService,
+    private authService: AuthService
   ) {
     const currentYear = new Date().getFullYear();
     for (let i = currentYear - 2; i <= currentYear + 2; i++) {
@@ -49,11 +50,22 @@ export class PresupuestoFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isAdmin = this.authService.isAdmin();
     this.loadTiposGasto();
   }
 
+  onFiltroChange(usuariosIds: number[]): void {
+    this.usuariosFiltrados = usuariosIds;
+    this.loadTiposGasto();
+    if (this.loaded) {
+      this.cargarPresupuestos();
+    }
+  }
+
   loadTiposGasto(): void {
-    this.tipoGastoService.getAll().subscribe({
+    const filtro = this.usuariosFiltrados.length > 0 ? this.usuariosFiltrados : undefined;
+
+    this.tipoGastoService.getAll(filtro).subscribe({
       next: (data) => {
         this.tiposGasto = data;
       },
@@ -65,7 +77,9 @@ export class PresupuestoFormComponent implements OnInit {
   }
 
   cargarPresupuestos(): void {
-    this.presupuestoService.getPresupuestosPorMes(this.mes, this.anio).subscribe({
+    const filtro = this.usuariosFiltrados.length > 0 ? this.usuariosFiltrados : undefined;
+
+    this.presupuestoService.getPresupuestosPorMes(this.mes, this.anio, filtro).subscribe({
       next: (data) => {
         this.presupuestos = data.items;
         this.loaded = true;

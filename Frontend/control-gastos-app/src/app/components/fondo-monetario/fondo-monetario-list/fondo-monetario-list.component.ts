@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FondoMonetarioService } from '../../../services/fondo-monetario.service';
+import { AuthService } from '../../../services/auth.service';
 import { FondoMonetario, FondoMonetarioCreate, FondoMonetarioUpdate } from '../../../models/fondo-monetario.model';
+import { FiltroUsuarioAdminComponent } from '../../shared/filtro-usuario-admin.component';
 
 @Component({
   selector: 'app-fondo-monetario-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FiltroUsuarioAdminComponent],
   templateUrl: './fondo-monetario-list.component.html',
   styleUrls: ['./fondo-monetario-list.component.css']
 })
@@ -16,6 +18,8 @@ export class FondoMonetarioListComponent implements OnInit {
   showForm: boolean = false;
   isEditing: boolean = false;
   editingId: number | null = null;
+  isAdmin: boolean = false;
+  usuariosFiltrados: number[] = [];
 
   formData: FondoMonetarioCreate = {
     nombre: '',
@@ -25,14 +29,25 @@ export class FondoMonetarioListComponent implements OnInit {
     activo: true
   };
 
-  constructor(private fondoMonetarioService: FondoMonetarioService) { }
+  constructor(
+    private fondoMonetarioService: FondoMonetarioService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
+    this.isAdmin = this.authService.isAdmin();
+    this.loadFondosMonetarios();
+  }
+
+  onFiltroChange(usuariosIds: number[]): void {
+    this.usuariosFiltrados = usuariosIds;
     this.loadFondosMonetarios();
   }
 
   loadFondosMonetarios(): void {
-    this.fondoMonetarioService.getAll().subscribe({
+    const filtro = this.usuariosFiltrados.length > 0 ? this.usuariosFiltrados : undefined;
+
+    this.fondoMonetarioService.getAll(filtro).subscribe({
       next: (data) => {
         this.fondosMonetarios = data;
       },

@@ -1,6 +1,9 @@
 <div class="card">
   <h2>Consulta de Movimientos</h2>
 
+  <!-- Filtro de usuarios para admin -->
+  <app-filtro-usuario-admin (filtroChange)="onFiltroChange($event)"></app-filtro-usuario-admin>
+
   <!-- Filtros de Consulta -->
   <div class="filtros-consulta">
     <div class="form-row">

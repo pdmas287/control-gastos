@@ -12,16 +12,30 @@ export class PresupuestoService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(): Observable<Presupuesto[]> {
-    return this.http.get<Presupuesto[]>(this.apiUrl);
+  getAll(usuariosIds?: number[]): Observable<Presupuesto[]> {
+    let url = this.apiUrl;
+
+    if (usuariosIds && usuariosIds.length > 0) {
+      const params = usuariosIds.map(id => `usuariosIds=${id}`).join('&');
+      url = `${this.apiUrl}?${params}`;
+    }
+
+    return this.http.get<Presupuesto[]>(url);
   }
 
   getById(id: number): Observable<Presupuesto> {
     return this.http.get<Presupuesto>(`${this.apiUrl}/${id}`);
   }
 
-  getPresupuestosPorMes(mes: number, anio: number): Observable<PresupuestosPorMes> {
-    return this.http.get<PresupuestosPorMes>(`${this.apiUrl}/mes/${mes}/anio/${anio}`);
+  getPresupuestosPorMes(mes: number, anio: number, usuariosIds?: number[]): Observable<PresupuestosPorMes> {
+    let url = `${this.apiUrl}/mes/${mes}/anio/${anio}`;
+
+    if (usuariosIds && usuariosIds.length > 0) {
+      const params = usuariosIds.map(id => `usuariosIds=${id}`).join('&');
+      url = `${url}?${params}`;
+    }
+
+    return this.http.get<PresupuestosPorMes>(url);
   }
 
   create(presupuesto: PresupuestoCreate): Observable<Presupuesto> {
