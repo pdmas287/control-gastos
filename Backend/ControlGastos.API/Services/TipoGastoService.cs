@@ -40,6 +40,23 @@ namespace ControlGastos.API.Services
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<TipoGastoDto>> GetByUsuariosAsync(List<int> usuariosIds)
+        {
+            return await _context.TiposGasto
+                .Include(t => t.Usuario)
+                .Where(t => t.Activo && usuariosIds.Contains(t.UsuarioId ?? 0))
+                .Select(t => new TipoGastoDto
+                {
+                    TipoGastoId = t.TipoGastoId,
+                    Codigo = t.Codigo,
+                    Descripcion = t.Descripcion,
+                    Activo = t.Activo,
+                    UsuarioId = t.UsuarioId ?? 0,
+                    NombreUsuario = t.Usuario != null ? t.Usuario.NombreCompleto : null
+                })
+                .ToListAsync();
+        }
+
         public async Task<TipoGastoDto?> GetByIdAsync(int id, int usuarioId, bool esAdmin)
         {
             var query = _context.TiposGasto
@@ -202,4 +219,21 @@ namespace ControlGastos.API.Services
             return $"TG-{siguienteNumero:D3}";
         }
     }
+
+        public async Task<IEnumerable<TipoGastoDto>> GetByUsuariosAsync(List<int> usuariosIds)
+        {
+            return await _context.TiposGasto
+                .Include(t => t.Usuario)
+                .Where(t => t.Activo && usuariosIds.Contains(t.UsuarioId ?? 0))
+                .Select(t => new TipoGastoDto
+                {
+                    TipoGastoId = t.TipoGastoId,
+                    Codigo = t.Codigo,
+                    Descripcion = t.Descripcion,
+                    Activo = t.Activo,
+                    UsuarioId = t.UsuarioId ?? 0,
+                    NombreUsuario = t.Usuario != null ? t.Usuario.NombreCompleto : null
+                })
+                .ToListAsync();
+        }
 }

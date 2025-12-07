@@ -12,8 +12,16 @@ export class TipoGastoService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(): Observable<TipoGasto[]> {
-    return this.http.get<TipoGasto[]>(this.apiUrl);
+  getAll(usuariosIds?: number[]): Observable<TipoGasto[]> {
+    let url = this.apiUrl;
+
+    // Si se proporcionan IDs de usuarios para filtrar
+    if (usuariosIds && usuariosIds.length > 0) {
+      const params = usuariosIds.map(id => `usuariosIds=${id}`).join('&');
+      url = `${this.apiUrl}?${params}`;
+    }
+
+    return this.http.get<TipoGasto[]>(url);
   }
 
   getById(id: number): Observable<TipoGasto> {

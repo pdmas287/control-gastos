@@ -19,14 +19,23 @@ namespace ControlGastos.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<TipoGastoDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<TipoGastoDto>>> GetAll([FromQuery] List<int>? usuariosIds = null)
         {
             try
             {
                 var usuarioId = User.GetUsuarioId();
                 var esAdmin = User.IsAdmin();
-                var tiposGasto = await _service.GetAllAsync(usuarioId, esAdmin);
-                return Ok(tiposGasto);
+
+                // Si el admin proporciona filtro de usuarios, usarlo
+                if (esAdmin && usuariosIds != null && usuariosIds.Count > 0)
+                {
+                    var tiposGasto = await _service.GetByUsuariosAsync(usuariosIds);
+                    return Ok(tiposGasto);
+                }
+
+                // Comportamiento normal (todos para admin, solo del usuario para usuario normal)
+                var tiposGastoNormal = await _service.GetAllAsync(usuarioId, esAdmin);
+                return Ok(tiposGastoNormal);
             }
             catch (UnauthorizedAccessException)
             {

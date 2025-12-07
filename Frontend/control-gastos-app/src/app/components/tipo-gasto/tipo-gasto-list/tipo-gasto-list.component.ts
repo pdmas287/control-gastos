@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { TipoGastoService } from '../../../services/tipo-gasto.service';
 import { AuthService } from '../../../services/auth.service';
 import { TipoGasto, TipoGastoCreate } from '../../../models/tipo-gasto.model';
+import { FiltroUsuarioAdminComponent } from '../../shared/filtro-usuario-admin.component';
 
 @Component({
   selector: 'app-tipo-gasto-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FiltroUsuarioAdminComponent],
   templateUrl: './tipo-gasto-list.component.html',
   styleUrls: ['./tipo-gasto-list.component.css']
 })
@@ -19,6 +20,7 @@ export class TipoGastoListComponent implements OnInit {
   editingId: number | null = null;
   siguienteCodigo: string = '';
   isAdmin: boolean = false;
+  usuariosFiltrados: number[] = [];
 
   formData: TipoGastoCreate = {
     descripcion: '',
@@ -35,8 +37,16 @@ export class TipoGastoListComponent implements OnInit {
     this.loadTiposGasto();
   }
 
+  onFiltroChange(usuariosIds: number[]): void {
+    this.usuariosFiltrados = usuariosIds;
+    this.loadTiposGasto();
+  }
+
   loadTiposGasto(): void {
-    this.tipoGastoService.getAll().subscribe({
+    // Si hay usuarios filtrados, pasar el filtro
+    const filtro = this.usuariosFiltrados.length > 0 ? this.usuariosFiltrados : undefined;
+
+    this.tipoGastoService.getAll(filtro).subscribe({
       next: (data) => {
         this.tiposGasto = data;
       },
