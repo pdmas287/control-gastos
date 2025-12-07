@@ -58,11 +58,14 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngular", policy =>
     {
-        policy.WithOrigins(
-            "http://localhost:4200",
-            "https://*.vercel.app"  // Permitir todos los dominios de Vercel (production + previews)
-        )
-        .SetIsOriginAllowedToAllowWildcardSubdomains()
+        policy.SetIsOriginAllowed(origin =>
+        {
+            // Permitir localhost para desarrollo
+            if (origin.StartsWith("http://localhost")) return true;
+            // Permitir cualquier dominio de Vercel
+            if (origin.EndsWith(".vercel.app")) return true;
+            return false;
+        })
         .AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials();
