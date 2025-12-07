@@ -60,10 +60,20 @@ builder.Services.AddCors(options =>
     {
         policy.SetIsOriginAllowed(origin =>
         {
+            Console.WriteLine($"CORS: Checking origin: {origin}");
             // Permitir localhost para desarrollo
-            if (origin.StartsWith("http://localhost")) return true;
+            if (origin.StartsWith("http://localhost") || origin.StartsWith("https://localhost"))
+            {
+                Console.WriteLine($"CORS: Allowed - localhost");
+                return true;
+            }
             // Permitir cualquier dominio de Vercel
-            if (origin.EndsWith(".vercel.app")) return true;
+            if (origin.Contains(".vercel.app"))
+            {
+                Console.WriteLine($"CORS: Allowed - Vercel domain");
+                return true;
+            }
+            Console.WriteLine($"CORS: BLOCKED - not allowed");
             return false;
         })
         .AllowAnyHeader()
