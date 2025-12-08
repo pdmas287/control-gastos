@@ -26,6 +26,10 @@ namespace ControlGastos.API.Controllers
         {
             try
             {
+                // Convert to UTC to avoid PostgreSQL timezone issues
+                fechaInicio = DateTime.SpecifyKind(fechaInicio, DateTimeKind.Utc);
+                fechaFin = DateTime.SpecifyKind(fechaFin, DateTimeKind.Utc);
+
                 if (fechaFin < fechaInicio)
                     return BadRequest("La fecha fin debe ser mayor o igual a la fecha inicio.");
 
@@ -55,6 +59,10 @@ namespace ControlGastos.API.Controllers
         {
             try
             {
+                // Convert to UTC to avoid PostgreSQL timezone issues
+                fechaInicio = DateTime.SpecifyKind(fechaInicio, DateTimeKind.Utc);
+                fechaFin = DateTime.SpecifyKind(fechaFin, DateTimeKind.Utc);
+
                 if (fechaFin < fechaInicio)
                     return BadRequest("La fecha fin debe ser mayor o igual a la fecha inicio.");
 
