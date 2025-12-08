@@ -8,6 +8,8 @@ namespace ControlGastos.API.DTOs
         public int Mes { get; set; }
         public int Anio { get; set; }
         public decimal MontoPresupuestado { get; set; }
+        public int UsuarioId { get; set; }
+        public string? NombreUsuario { get; set; }
     }
 
     public class PresupuestoCreateDto

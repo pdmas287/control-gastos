@@ -11,6 +11,8 @@ namespace ControlGastos.API.DTOs
         public string? Observaciones { get; set; }
         public decimal MontoTotal { get; set; }
         public List<RegistroGastoDetalleDto> Detalles { get; set; } = new List<RegistroGastoDetalleDto>();
+        public int UsuarioId { get; set; }
+        public string? NombreUsuario { get; set; }
     }
 
     public class RegistroGastoDetalleDto

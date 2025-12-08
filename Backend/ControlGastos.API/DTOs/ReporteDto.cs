@@ -9,6 +9,8 @@ namespace ControlGastos.API.DTOs
         public decimal Monto { get; set; }
         public string? TipoDocumento { get; set; }
         public string? Observaciones { get; set; }
+        public int UsuarioId { get; set; }
+        public string? NombreUsuario { get; set; }
     }
 
     public class ComparativoPresupuestoDto

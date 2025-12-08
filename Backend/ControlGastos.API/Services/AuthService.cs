@@ -199,7 +199,7 @@ namespace ControlGastos.API.Services
                 new TipoGasto { Codigo = "TG-010", Descripcion = "Otros", Activo = true, FechaCreacion = DateTime.UtcNow, UsuarioId = usuarioId }
             };
 
-            _context.TipoGastos.AddRange(tiposGasto);
+            _context.TiposGasto.AddRange(tiposGasto);
             await _context.SaveChangesAsync();
 
             // Insertar Fondos Monetarios por defecto
