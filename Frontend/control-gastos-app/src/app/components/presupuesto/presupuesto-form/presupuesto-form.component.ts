@@ -3,13 +3,15 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PresupuestoService } from '../../../services/presupuesto.service';
 import { TipoGastoService } from '../../../services/tipo-gasto.service';
+import { AuthService } from '../../../services/auth.service';
 import { PresupuestoItem, PresupuestoCreate, PresupuestoUpdate } from '../../../models/presupuesto.model';
 import { TipoGasto } from '../../../models/tipo-gasto.model';
+import { FiltroUsuarioAdminComponent } from '../../shared/filtro-usuario-admin.component';
 
 @Component({
   selector: 'app-presupuesto-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FiltroUsuarioAdminComponent],
   templateUrl: './presupuesto-form.component.html',
   styleUrls: ['./presupuesto-form.component.css']
 })
@@ -20,6 +22,8 @@ export class PresupuestoFormComponent implements OnInit {
   presupuestos: PresupuestoItem[] = [];
   tiposGasto: TipoGasto[] = [];
   loaded: boolean = false;
+  isAdmin: boolean = false;
+  usuariosFiltrados: number[] = [];
 
   meses = [
     { valor: 1, nombre: 'Enero' },

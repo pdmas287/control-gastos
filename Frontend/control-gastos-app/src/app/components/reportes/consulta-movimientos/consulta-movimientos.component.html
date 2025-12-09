@@ -31,7 +31,7 @@
           class="form-control"
           [(ngModel)]="filtroTipo"
           name="filtroTipo"
-          (change)="onFiltroChange()">
+          (change)="onFiltroTipoChange()">
           <option *ngFor="let tipo of tiposMovimiento" [value]="tipo">
             {{ tipo }}
           </option>

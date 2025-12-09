@@ -96,7 +96,7 @@ export class ConsultaMovimientosComponent implements OnInit {
     }
   }
 
-  onFiltroChange(): void {
+  onFiltroTipoChange(): void {
     this.aplicarFiltro();
   }
 
