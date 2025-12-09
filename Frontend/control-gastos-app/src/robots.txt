@@ -1,0 +1,20 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+Disallow: /home
+Disallow: /tipos-gasto
+Disallow: /fondos-monetarios
+Disallow: /presupuestos
+Disallow: /registro-gastos
+Disallow: /depositos
+Disallow: /consulta-movimientos
+Disallow: /grafico-comparativo
+Disallow: /admin
+
+# Allow public pages
+Allow: /
+Allow: /login
+Allow: /registro
+
+# Sitemap
+Sitemap: https://control-gastos.vercel.app/sitemap.xml

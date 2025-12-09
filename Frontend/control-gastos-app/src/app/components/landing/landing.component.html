@@ -1,0 +1,268 @@
+<!-- Header / Navbar -->
+<header class="header">
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-content">
+        <div class="logo">
+          <span class="logo-icon">💰</span>
+          <span class="logo-text">Control de Gastos</span>
+        </div>
+        <div class="nav-links">
+          <a (click)="scrollToSection('features')" class="nav-link">Características</a>
+          <a (click)="scrollToSection('how-it-works')" class="nav-link">¿Cómo funciona?</a>
+          <a (click)="scrollToSection('faq')" class="nav-link">FAQ</a>
+          <button (click)="goToLogin()" class="btn btn-outline">Iniciar Sesión</button>
+          <button (click)="goToRegister()" class="btn btn-primary">Registrarse Gratis</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1 class="hero-title">
+          Toma el Control de tus <span class="highlight">Finanzas Personales</span>
+        </h1>
+        <p class="hero-description">
+          Registra tus gastos, crea presupuestos inteligentes y visualiza tus patrones de consumo.
+          Todo lo que necesitas para gestionar tu dinero de forma efectiva.
+        </p>
+        <div class="hero-buttons">
+          <button (click)="goToRegister()" class="btn btn-primary btn-lg">
+            Comenzar Gratis
+          </button>
+          <button (click)="goToLogin()" class="btn btn-outline btn-lg">
+            Iniciar Sesión
+          </button>
+        </div>
+        <p class="hero-note">
+          ✓ Sin tarjeta de crédito &nbsp;&nbsp; ✓ 100% Gratis &nbsp;&nbsp; ✓ Configuración en 2 minutos
+        </p>
+      </div>
+      <div class="hero-image">
+        <div class="mockup">
+          <div class="mockup-screen">
+            <div class="mockup-header">
+              <div class="mockup-dots">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="mockup-title">Dashboard</div>
+            </div>
+            <div class="mockup-content">
+              <div class="chart-placeholder">📊</div>
+              <div class="stats-grid">
+                <div class="stat-card">
+                  <div class="stat-label">Gastos del Mes</div>
+                  <div class="stat-value">$1,250</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label">Presupuesto</div>
+                  <div class="stat-value">$2,000</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="features">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Características Principales</h2>
+      <p class="section-description">
+        Todo lo que necesitas para administrar tus finanzas de manera inteligente
+      </p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card" *ngFor="let feature of features">
+        <div class="feature-icon">{{ feature.icon }}</div>
+        <h3 class="feature-title">{{ feature.title }}</h3>
+        <p class="feature-description">{{ feature.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works Section -->
+<section id="how-it-works" class="how-it-works">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">¿Cómo Funciona?</h2>
+      <p class="section-description">
+        Comienza a controlar tus gastos en 3 simples pasos
+      </p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <div class="step-content">
+          <h3 class="step-title">Regístrate Gratis</h3>
+          <p class="step-description">
+            Crea tu cuenta en menos de 2 minutos. Solo necesitas tu correo electrónico.
+          </p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <div class="step-content">
+          <h3 class="step-title">Configura tus Categorías</h3>
+          <p class="step-description">
+            Personaliza las categorías de gastos y fondos monetarios según tus necesidades.
+          </p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <div class="step-content">
+          <h3 class="step-title">Registra y Analiza</h3>
+          <p class="step-description">
+            Empieza a registrar tus gastos y visualiza reportes detallados de tus finanzas.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Benefits Section -->
+<section class="benefits">
+  <div class="container">
+    <div class="benefits-content">
+      <div class="benefits-text">
+        <h2 class="benefits-title">¿Por qué elegir Control de Gastos?</h2>
+        <ul class="benefits-list">
+          <li class="benefit-item">
+            <span class="benefit-icon">✓</span>
+            <span class="benefit-text"><strong>100% Gratuito:</strong> Sin cargos ocultos ni suscripciones</span>
+          </li>
+          <li class="benefit-item">
+            <span class="benefit-icon">✓</span>
+            <span class="benefit-text"><strong>Fácil de usar:</strong> Interfaz intuitiva para todos</span>
+          </li>
+          <li class="benefit-item">
+            <span class="benefit-icon">✓</span>
+            <span class="benefit-text"><strong>Acceso desde cualquier lugar:</strong> Responsive en todos tus dispositivos</span>
+          </li>
+          <li class="benefit-item">
+            <span class="benefit-icon">✓</span>
+            <span class="benefit-text"><strong>Seguridad garantizada:</strong> Tus datos están protegidos</span>
+          </li>
+          <li class="benefit-item">
+            <span class="benefit-icon">✓</span>
+            <span class="benefit-text"><strong>Reportes detallados:</strong> Visualiza tus finanzas con gráficos claros</span>
+          </li>
+        </ul>
+      </div>
+      <div class="benefits-image">
+        <div class="benefit-card">
+          <div class="benefit-card-header">Control Total</div>
+          <div class="benefit-card-body">
+            <div class="progress-item">
+              <span>Alimentación</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 75%"></div>
+              </div>
+              <span>75%</span>
+            </div>
+            <div class="progress-item">
+              <span>Transporte</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 50%"></div>
+              </div>
+              <span>50%</span>
+            </div>
+            <div class="progress-item">
+              <span>Entretenimiento</span>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: 90%"></div>
+              </div>
+              <span>90%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ Section -->
+<section id="faq" class="faq">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Preguntas Frecuentes</h2>
+      <p class="section-description">
+        Resolvemos tus dudas más comunes
+      </p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item" *ngFor="let faq of faqs; let i = index" [class.active]="faq.isOpen">
+        <button class="faq-question" (click)="toggleFAQ(i)">
+          <span>{{ faq.question }}</span>
+          <span class="faq-icon">{{ faq.isOpen ? '−' : '+' }}</span>
+        </button>
+        <div class="faq-answer" [class.show]="faq.isOpen">
+          <p>{{ faq.answer }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta">
+  <div class="container">
+    <div class="cta-content">
+      <h2 class="cta-title">¿Listo para tomar el control de tus finanzas?</h2>
+      <p class="cta-description">
+        Únete a miles de usuarios que ya están mejorando su salud financiera
+      </p>
+      <button (click)="goToRegister()" class="btn btn-primary btn-lg">
+        Comenzar Ahora - Es Gratis
+      </button>
+      <p class="cta-note">No se requiere tarjeta de crédito</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <div class="footer-logo">
+          <span class="logo-icon">💰</span>
+          <span class="logo-text">Control de Gastos</span>
+        </div>
+        <p class="footer-description">
+          Tu aliado para una mejor gestión financiera personal.
+        </p>
+      </div>
+      <div class="footer-section">
+        <h4 class="footer-title">Producto</h4>
+        <ul class="footer-links">
+          <li><a (click)="scrollToSection('features')">Características</a></li>
+          <li><a (click)="scrollToSection('how-it-works')">¿Cómo funciona?</a></li>
+          <li><a (click)="scrollToSection('faq')">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4 class="footer-title">Acceso</h4>
+        <ul class="footer-links">
+          <li><a (click)="goToLogin()">Iniciar Sesión</a></li>
+          <li><a (click)="goToRegister()">Registrarse</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; {{ currentYear }} Control de Gastos. Todos los derechos reservados.</p>
+    </div>
+  </div>
+</footer>

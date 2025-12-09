@@ -3,8 +3,11 @@ import { authGuard } from './guards/auth.guard';
 import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
-  // Redirigir la raíz al login
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  // Landing Page como página principal
+  {
+    path: '',
+    loadComponent: () => import('./components/landing/landing.component').then(m => m.LandingComponent)
+  },
 
   // Rutas públicas (sin autenticación)
   {
@@ -80,6 +83,6 @@ export const routes: Routes = [
     canActivate: [authGuard]
   },
 
-  // Ruta 404 - Redirigir al login
-  { path: '**', redirectTo: '/login' }
+  // Ruta 404 - Redirigir a la landing page
+  { path: '**', redirectTo: '' }
 ];
