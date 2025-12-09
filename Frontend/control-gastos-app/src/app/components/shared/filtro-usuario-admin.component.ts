@@ -264,11 +264,11 @@ export class FiltroUsuarioAdminComponent implements OnInit {
   }
 
   cargarUsuarios(): void {
-    this.usuarioService.getAll().subscribe({
-      next: (data) => {
+    this.usuarioService.getAllUsuarios().subscribe({
+      next: (data: any) => {
         this.usuarios = data;
       },
-      error: (error) => {
+      error: (error: any) => {
         console.error('Error al cargar usuarios:', error);
       }
     });
