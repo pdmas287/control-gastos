@@ -11,11 +11,6 @@ body {
   color: #333;
 }
 
-.container {
-  width: 100%;
-  padding: 20px;
-}
-
 .card {
   background: white;
   border-radius: 8px;
