@@ -82,6 +82,8 @@ import { AuthService } from './services/auth.service';
       color: white;
       padding: 15px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: relative;
+      z-index: 1000;
     }
 
     .navbar-container {
@@ -167,7 +169,7 @@ import { AuthService } from './services/auth.service';
       min-width: 200px;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
       border-radius: 4px;
-      z-index: 1000;
+      z-index: 10000;
     }
 
     .nav-item.dropdown:hover .dropdown-menu {
