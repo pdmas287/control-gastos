@@ -87,7 +87,7 @@ import { AuthService } from './services/auth.service';
     .navbar-container {
       width: 100%;
       margin: 0 auto;
-      padding: 0 15px;
+      padding: 0 20px;
     }
 
     .navbar-header {
