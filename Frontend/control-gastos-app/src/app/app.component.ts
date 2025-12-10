@@ -185,7 +185,7 @@ import { AuthService } from './services/auth.service';
 
     .main-content {
       flex: 1;
-      padding: 30px 0;
+      padding: 30px 20px;
     }
 
     .user-menu {
@@ -313,7 +313,7 @@ import { AuthService } from './services/auth.service';
       }
 
       .main-content {
-        padding: 15px 0;
+        padding: 15px 20px;
       }
     }
   `]
