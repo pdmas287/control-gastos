@@ -87,7 +87,7 @@ import { AuthService } from './services/auth.service';
     .navbar-container {
       width: 100%;
       margin: 0 auto;
-      padding: 0 20px;
+      padding: 0 10px;
     }
 
     .navbar-header {
@@ -185,7 +185,7 @@ import { AuthService } from './services/auth.service';
 
     .main-content {
       flex: 1;
-      padding: 30px 20px;
+      padding: 30px 10px;
     }
 
     .user-menu {
@@ -313,7 +313,7 @@ import { AuthService } from './services/auth.service';
       }
 
       .main-content {
-        padding: 15px 20px;
+        padding: 15px 10px;
       }
     }
   `]
