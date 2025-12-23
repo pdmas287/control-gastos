@@ -10,7 +10,8 @@
       "Bash(git push:*)",
       "Bash(git commit:*)",
       "Bash(git reset:*)",
-      "Bash(ng generate:*)"
+      "Bash(ng generate:*)",
+      "Bash(mkdir:*)"
     ],
     "deny": [],
     "ask": []

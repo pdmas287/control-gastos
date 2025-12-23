@@ -1,15 +1,23 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { AdsenseComponent } from '../shared/adsense.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, AdsenseComponent],
   template: `
     <div class="home-container">
       <div class="card">
         <h1>Bienvenido al Sistema de Control de Gastos</h1>
         <p class="subtitle">Gestiona tus finanzas personales de manera eficiente</p>
+
+        <!-- Anuncio horizontal después del título -->
+        <app-adsense
+          adSlot="6789012345"
+          adFormat="horizontal"
+          fullWidthResponsive="true">
+        </app-adsense>
 
         <div class="features">
           <div class="feature-card">
@@ -45,6 +53,13 @@ import { CommonModule } from '@angular/common';
           <strong>Nota:</strong> Este sistema te permite llevar un control detallado de tus ingresos y egresos,
           con alertas automáticas cuando excedas tu presupuesto mensual.
         </div>
+
+        <!-- Anuncio al final de la página -->
+        <app-adsense
+          adSlot="9876543210"
+          adFormat="rectangle"
+          fullWidthResponsive="true">
+        </app-adsense>
       </div>
     </div>
   `,

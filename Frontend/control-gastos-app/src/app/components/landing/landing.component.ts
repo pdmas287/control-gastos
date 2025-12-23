@@ -2,11 +2,12 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { SeoService } from '../../services/seo.service';
+import { AdsenseComponent } from '../shared/adsense.component';
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, AdsenseComponent],
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.css']
 })

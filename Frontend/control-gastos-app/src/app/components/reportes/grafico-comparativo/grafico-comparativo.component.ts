@@ -5,11 +5,12 @@ import { ReporteService } from '../../../services/reporte.service';
 import { AuthService } from '../../../services/auth.service';
 import { ComparativoPresupuesto } from '../../../models/reporte.model';
 import { FiltroUsuarioAdminComponent } from '../../shared/filtro-usuario-admin.component';
+import { AdsenseComponent } from '../../shared/adsense.component';
 
 @Component({
   selector: 'app-grafico-comparativo',
   standalone: true,
-  imports: [CommonModule, FormsModule, FiltroUsuarioAdminComponent],
+  imports: [CommonModule, FormsModule, FiltroUsuarioAdminComponent, AdsenseComponent],
   templateUrl: './grafico-comparativo.component.html',
   styleUrls: ['./grafico-comparativo.component.css']
 })

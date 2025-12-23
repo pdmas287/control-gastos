@@ -39,6 +39,14 @@
     </div>
   </div>
 
+  <!-- Anuncio antes del resumen -->
+  <app-adsense
+    *ngIf="consultado"
+    adSlot="3456789012"
+    adFormat="horizontal"
+    fullWidthResponsive="true">
+  </app-adsense>
+
   <!-- Resumen General -->
   <div *ngIf="consultado" class="resumen-general">
     <h3>Resumen General del Período</h3>

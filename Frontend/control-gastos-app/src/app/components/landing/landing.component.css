@@ -26,6 +26,12 @@
   padding: 0 1.5rem;
 }
 
+/* Ad Section */
+.ad-section {
+  padding: 2rem 0;
+  background-color: var(--bg-light);
+}
+
 /* Header */
 .header {
   position: sticky;
