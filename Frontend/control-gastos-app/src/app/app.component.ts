@@ -188,6 +188,13 @@ import { AuthService } from './services/auth.service';
     .main-content {
       flex: 1;
       padding: 30px 10px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .main-content > div {
+      width: 100%;
+      max-width: 1400px;
     }
 
     .user-menu {
@@ -215,12 +222,6 @@ import { AuthService } from './services/auth.service';
 
     .logout-btn:hover {
       background-color: #c0392b;
-    }
-
-    .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
     }
 
     .admin-menu-title {
